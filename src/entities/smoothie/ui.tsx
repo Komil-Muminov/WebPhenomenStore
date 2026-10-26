@@ -10,7 +10,13 @@ export const SmoothieBowl: React.FC<ISmoothieBowlProps> = ({ smoothie }) => {
   return (
     <div className="bowl">
       <If condition={hasImage}>
-        <img className="bowl__img" src={smoothie.image} alt={smoothie.title} />
+        <img
+          className="bowl__img"
+          src={smoothie.image}
+          alt={smoothie.title}
+          draggable={false}
+          onDragStart={(e) => e.preventDefault()}
+        />
       </If>
       <If condition={!hasImage}>
         <div className="bowl__plate">

@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { AnimatePresence, motion, type PanInfo } from "framer-motion";
+import { AnimatePresence, motion, type PanInfo, type TapInfo } from "framer-motion";
 import { SmoothieBowl } from "@/entities";
 import { bowlVariants, checkSwipeDirection, decorVariants, wordVariants } from "../lib";
 import type { IRenderStageProps } from "../model";
@@ -13,6 +13,10 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
   onOpenNutrition,
 }) => {
   const dragDistanceRef = useRef<number>(0);
+
+  const handleDragStart = () => {
+    dragDistanceRef.current = 0;
+  };
 
   const handleDrag = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     dragDistanceRef.current = Math.abs(info.offset.x) + Math.abs(info.offset.y);
@@ -30,8 +34,17 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
     }
   };
 
-  const handleBowlClick = () => {
-    if (dragDistanceRef.current < 10) {
+  const handleStageTap = (
+    _: MouseEvent | TouchEvent | PointerEvent,
+    info: TapInfo,
+  ) => {
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    const distFromCenter = Math.hypot(
+      info.point.x - centerX,
+      info.point.y - centerY,
+    );
+    if (distFromCenter < 240) {
       onOpenNutrition();
     }
   };
@@ -42,8 +55,10 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
       dragElastic={0.25}
+      onDragStart={handleDragStart}
       onDrag={handleDrag}
       onDragEnd={handleDragEnd}
+      onTap={handleStageTap}
     >
       <AnimatePresence initial={false} custom={dir} mode="popLayout">
         <motion.h1
@@ -69,7 +84,6 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
           animate="center"
           exit="exit"
           onAnimationComplete={onAnimationEnd}
-          onClick={handleBowlClick}
         >
           <SmoothieBowl smoothie={current} />
         </motion.div>

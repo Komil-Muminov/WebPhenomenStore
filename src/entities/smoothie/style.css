@@ -3,6 +3,9 @@
   width: clamp(240px, 34vw, 480px);
   aspect-ratio: 1;
   filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55));
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
 }
 
 .bowl__img {
@@ -11,6 +14,10 @@
   object-fit: cover;
   border-radius: 50%;
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
 }
 
 .bowl__plate {
