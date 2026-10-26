@@ -7,13 +7,15 @@ export const SmoothieBowl: React.FC<ISmoothieBowlProps> = ({
   smoothie,
   onClick,
   onPointerDown,
+  isActive = false,
 }) => {
   const hasImage = Boolean(smoothie.image);
   const fillClassName = `bowl__fill bowl__fill-${smoothie.id}`;
+  const bowlClass = `bowl ${isActive ? "bowl-active" : ""}`.trim();
 
   return (
     <div
-      className="bowl"
+      className={bowlClass}
       onClick={onClick}
       onPointerDown={onPointerDown}
     >

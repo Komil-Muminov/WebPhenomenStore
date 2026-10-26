@@ -26,102 +26,107 @@ export const DishPopup: React.FC<IDishPopupProps> = ({
 
   return (
     <div className="dish-popup-layer">
-      <motion.div
-        className="dish-popup"
-        initial={{ opacity: 0, scale: 0.88, y: 14 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.88, y: 14 }}
-        transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="dish-popup__header">
-          <span className="dish-popup__badge">
-            <FireOutlined className="mr-1!" />
-            {caloriesText}
-          </span>
-          <Tooltip title="Закрыть">
-            <button
-              type="button"
-              className="dish-popup__close"
-              onClick={onClose}
-              aria-label="Закрыть описание"
-            >
-              <CloseOutlined />
-            </button>
-          </Tooltip>
+      <div className="dish-popup-anchor">
+        <div className="dish-popup-slot">
+          <motion.div
+            className="dish-popup"
+            initial={{ opacity: 0, x: -20, scale: 0.94 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: -20, scale: 0.94 }}
+            transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span className="dish-popup__pointer-line" />
+            <div className="dish-popup__header">
+              <span className="dish-popup__badge">
+                <FireOutlined className="mr-1!" />
+                {caloriesText}
+              </span>
+              <Tooltip title="Закрыть">
+                <button
+                  type="button"
+                  className="dish-popup__close"
+                  onClick={onClose}
+                  aria-label="Закрыть описание"
+                >
+                  <CloseOutlined />
+                </button>
+              </Tooltip>
+            </div>
+
+            <h3 className="dish-popup__title">{smoothie.title}</h3>
+            <p className="dish-popup__desc">{smoothie.description}</p>
+
+            <If condition={hasNutrition}>
+              <div className="dish-popup__macros">
+                <div className="dish-popup__macro">
+                  <span className="dish-popup__macro-label">Белки</span>
+                  <span className="dish-popup__macro-val text-purple-300!">
+                    {nutrition?.proteins} г
+                  </span>
+                </div>
+                <div className="dish-popup__macro">
+                  <span className="dish-popup__macro-label">Жиры</span>
+                  <span className="dish-popup__macro-val text-sky-300!">
+                    {nutrition?.fats} г
+                  </span>
+                </div>
+                <div className="dish-popup__macro">
+                  <span className="dish-popup__macro-label">Углеводы</span>
+                  <span className="dish-popup__macro-val text-emerald-300!">
+                    {nutrition?.carbs} г
+                  </span>
+                </div>
+              </div>
+
+              <If condition={hasIngredients}>
+                <div className="dish-popup__ingredients">
+                  {previewIngredients.map((item) => (
+                    <span key={item} className="dish-popup__tag">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </If>
+            </If>
+
+            <div className="dish-popup__actions">
+              <If condition={Boolean(onOpenDetails)}>
+                <Tooltip title="Подробный состав и КБЖУ">
+                  <button
+                    type="button"
+                    className="dish-popup__btn-details"
+                    onClick={() => {
+                      onClose();
+                      onOpenDetails?.();
+                    }}
+                  >
+                    <InfoCircleOutlined className="mr-1!" />
+                    КБЖУ
+                  </button>
+                </Tooltip>
+              </If>
+              <If condition={Boolean(onAddToCart)}>
+                <Tooltip title="Добавить в корзину">
+                  <button
+                    type="button"
+                    className="dish-popup__btn-cart"
+                    onClick={() => {
+                      onAddToCart?.();
+                    }}
+                  >
+                    <ShoppingCartOutlined className="mr-1!" />
+                    Заказать
+                    <If condition={Boolean(price)}>
+                      <span className="ml-1!">• {price} ₽</span>
+                    </If>
+                  </button>
+                </Tooltip>
+              </If>
+            </div>
+          </motion.div>
         </div>
-
-        <h3 className="dish-popup__title">{smoothie.title}</h3>
-        <p className="dish-popup__desc">{smoothie.description}</p>
-
-        <If condition={hasNutrition}>
-          <div className="dish-popup__macros">
-            <div className="dish-popup__macro">
-              <span className="dish-popup__macro-label">Белки</span>
-              <span className="dish-popup__macro-val text-purple-300!">
-                {nutrition?.proteins} г
-              </span>
-            </div>
-            <div className="dish-popup__macro">
-              <span className="dish-popup__macro-label">Жиры</span>
-              <span className="dish-popup__macro-val text-sky-300!">
-                {nutrition?.fats} г
-              </span>
-            </div>
-            <div className="dish-popup__macro">
-              <span className="dish-popup__macro-label">Углеводы</span>
-              <span className="dish-popup__macro-val text-emerald-300!">
-                {nutrition?.carbs} г
-              </span>
-            </div>
-          </div>
-
-          <If condition={hasIngredients}>
-            <div className="dish-popup__ingredients">
-              {previewIngredients.map((item) => (
-                <span key={item} className="dish-popup__tag">
-                  {item}
-                </span>
-              ))}
-            </div>
-          </If>
-        </If>
-
-        <div className="dish-popup__actions">
-          <If condition={Boolean(onOpenDetails)}>
-            <Tooltip title="Подробный состав и КБЖУ">
-              <button
-                type="button"
-                className="dish-popup__btn-details"
-                onClick={() => {
-                  onClose();
-                  onOpenDetails?.();
-                }}
-              >
-                <InfoCircleOutlined className="mr-1!" />
-                КБЖУ
-              </button>
-            </Tooltip>
-          </If>
-          <If condition={Boolean(onAddToCart)}>
-            <Tooltip title="Добавить в корзину">
-              <button
-                type="button"
-                className="dish-popup__btn-cart"
-                onClick={() => {
-                  onAddToCart?.();
-                }}
-              >
-                <ShoppingCartOutlined className="mr-1!" />
-                Заказать
-                <If condition={Boolean(price)}>
-                  <span className="ml-1!">• {price} ₽</span>
-                </If>
-              </button>
-            </Tooltip>
-          </If>
-        </div>
-      </motion.div>
+      </div>
     </div>
   );
 };

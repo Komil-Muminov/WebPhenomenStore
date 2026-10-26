@@ -93,6 +93,7 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
             smoothie={current}
             onPointerDown={handlePointerDown}
             onClick={handleBowlClick}
+            isActive={isDescriptionOpen}
           />
         </motion.div>
       </AnimatePresence>

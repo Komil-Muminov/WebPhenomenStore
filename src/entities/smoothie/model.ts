@@ -25,6 +25,7 @@ export interface ISmoothieBowlProps {
   smoothie: ISmoothie;
   onClick?: (e: React.MouseEvent) => void;
   onPointerDown?: (e: React.PointerEvent) => void;
+  isActive?: boolean;
 }
 
 export interface IDishPopupProps {

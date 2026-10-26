@@ -98,6 +98,7 @@ export const RenderVerticalStage: React.FC<IVerticalStageProps> = ({
             smoothie={current}
             onPointerDown={handlePointerDown}
             onClick={handleBowlClick}
+            isActive={isDescriptionOpen}
           />
         </motion.div>
       </AnimatePresence>
