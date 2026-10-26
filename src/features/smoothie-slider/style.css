@@ -69,13 +69,7 @@
 
 .slider__stage:active { cursor: grabbing; }
 .slider__stage > * { grid-area: 1 / 1; }
-.slider__stage-bowl {
-  z-index: 2;
-  user-select: none;
-  -webkit-user-select: none;
-  cursor: pointer;
-  pointer-events: auto;
-}
+.slider__stage-bowl { z-index: 25; user-select: none; -webkit-user-select: none; cursor: pointer; pointer-events: auto; }
 
 .slider__word {
   margin: 0;
