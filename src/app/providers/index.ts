@@ -1,0 +1,1 @@
+export { antThemeConfig } from "./theme";
