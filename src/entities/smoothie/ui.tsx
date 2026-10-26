@@ -3,12 +3,20 @@ import { If } from "@/shared";
 import type { ISmoothieBowlProps } from "./model";
 import "./style.css";
 
-export const SmoothieBowl: React.FC<ISmoothieBowlProps> = ({ smoothie }) => {
+export const SmoothieBowl: React.FC<ISmoothieBowlProps> = ({
+  smoothie,
+  onClick,
+  onPointerDown,
+}) => {
   const hasImage = Boolean(smoothie.image);
   const fillClassName = `bowl__fill bowl__fill-${smoothie.id}`;
 
   return (
-    <div className="bowl">
+    <div
+      className="bowl"
+      onClick={onClick}
+      onPointerDown={onPointerDown}
+    >
       <If condition={hasImage}>
         <img
           className="bowl__img"

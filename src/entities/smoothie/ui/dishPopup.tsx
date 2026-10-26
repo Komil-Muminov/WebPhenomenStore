@@ -12,7 +12,6 @@ import "./dishPopup.css";
 
 export const DishPopup: React.FC<IDishPopupProps> = ({
   smoothie,
-  open,
   onClose,
   onOpenDetails,
   onAddToCart,
@@ -26,7 +25,7 @@ export const DishPopup: React.FC<IDishPopupProps> = ({
   const hasIngredients = previewIngredients.length > 0;
 
   return (
-    <If condition={open}>
+    <div className="dish-popup-layer">
       <motion.div
         className="dish-popup"
         initial={{ opacity: 0, scale: 0.88, y: 14 }}
@@ -123,6 +122,6 @@ export const DishPopup: React.FC<IDishPopupProps> = ({
           </If>
         </div>
       </motion.div>
-    </If>
+    </div>
   );
 };

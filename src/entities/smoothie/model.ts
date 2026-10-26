@@ -23,11 +23,13 @@ export interface ISmoothie {
 
 export interface ISmoothieBowlProps {
   smoothie: ISmoothie;
+  onClick?: (e: React.MouseEvent) => void;
+  onPointerDown?: (e: React.PointerEvent) => void;
 }
 
 export interface IDishPopupProps {
   smoothie: ISmoothie;
-  open: boolean;
+  open?: boolean;
   onClose: () => void;
   onOpenDetails?: () => void;
   onAddToCart?: () => void;

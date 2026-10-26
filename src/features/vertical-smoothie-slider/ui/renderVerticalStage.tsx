@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, type PanInfo, type TapInfo } from "framer-motion";
+import { AnimatePresence, motion, type PanInfo } from "framer-motion";
 import { DishPopup, SmoothieBowl } from "@/entities";
 import { If } from "@/shared";
 import {
@@ -22,21 +22,12 @@ export const RenderVerticalStage: React.FC<IVerticalStageProps> = ({
   onAddToCart,
   price,
 }) => {
-  const stageRef = useRef<HTMLDivElement>(null);
-  const dragDistanceRef = useRef<number>(0);
+  const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
   const [isDescriptionOpen, setIsDescriptionOpen] = useState<boolean>(false);
 
   useEffect(() => {
     setIsDescriptionOpen(false);
   }, [current.id]);
-
-  const handlePanStart = () => {
-    dragDistanceRef.current = 0;
-  };
-
-  const handlePan = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    dragDistanceRef.current = Math.abs(info.offset.x) + Math.abs(info.offset.y);
-  };
 
   const handlePanEnd = (
     _: MouseEvent | TouchEvent | PointerEvent,
@@ -50,33 +41,33 @@ export const RenderVerticalStage: React.FC<IVerticalStageProps> = ({
     }
   };
 
-  const handleStageTap = (
-    _: MouseEvent | TouchEvent | PointerEvent,
-    info: TapInfo,
-  ) => {
-    if (dragDistanceRef.current > 15) return;
-    const rect = stageRef.current?.getBoundingClientRect();
-    const centerX = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
-    const centerY = rect ? rect.top + rect.height / 2 : window.innerHeight / 2;
-    const distFromCenter = Math.hypot(
-      info.point.x - centerX,
-      info.point.y - centerY,
-    );
-    if (distFromCenter < 240) {
-      setIsDescriptionOpen((prev) => !prev);
-    } else if (isDescriptionOpen) {
+  const handlePointerDown = (e: React.PointerEvent) => {
+    pointerStartRef.current = { x: e.clientX, y: e.clientY };
+  };
+
+  const handleBowlClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (pointerStartRef.current) {
+      const moved = Math.hypot(
+        e.clientX - pointerStartRef.current.x,
+        e.clientY - pointerStartRef.current.y,
+      );
+      if (moved > 12) return;
+    }
+    setIsDescriptionOpen((prev) => !prev);
+  };
+
+  const handleStageClick = () => {
+    if (isDescriptionOpen) {
       setIsDescriptionOpen(false);
     }
   };
 
   return (
     <motion.div
-      ref={stageRef}
       className="vslider__stage"
-      onPanStart={handlePanStart}
-      onPan={handlePan}
       onPanEnd={handlePanEnd}
-      onTap={handleStageTap}
+      onClick={handleStageClick}
     >
       <div className="vslider__horizon-wordmark">
         {PHENOMEN_LETTERS.map((letter, i) => {
@@ -100,23 +91,26 @@ export const RenderVerticalStage: React.FC<IVerticalStageProps> = ({
           animate="center"
           exit="exit"
           onAnimationComplete={onAnimationEnd}
+          onPointerDown={handlePointerDown}
+          onClick={handleBowlClick}
         >
-          <SmoothieBowl smoothie={current} />
+          <SmoothieBowl
+            smoothie={current}
+            onPointerDown={handlePointerDown}
+            onClick={handleBowlClick}
+          />
         </motion.div>
       </AnimatePresence>
 
-      <AnimatePresence>
-        <If condition={isDescriptionOpen}>
-          <DishPopup
-            smoothie={current}
-            open={isDescriptionOpen}
-            onClose={() => setIsDescriptionOpen(false)}
-            onOpenDetails={onOpenNutrition}
-            onAddToCart={onAddToCart}
-            price={price}
-          />
-        </If>
-      </AnimatePresence>
+      <If condition={isDescriptionOpen}>
+        <DishPopup
+          smoothie={current}
+          onClose={() => setIsDescriptionOpen(false)}
+          onOpenDetails={onOpenNutrition}
+          onAddToCart={onAddToCart}
+          price={price}
+        />
+      </If>
 
       <AnimatePresence initial={false} custom={{ dir, i: 0 }}>
         {current.decor.map((decorItem, index) => (
