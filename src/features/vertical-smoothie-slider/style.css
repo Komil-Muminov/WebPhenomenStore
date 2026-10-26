@@ -12,9 +12,12 @@
 }
 
 .vslider-bg-matcha { background-color: #133829; }
+.vslider-bg-blackberry_bowl { background-color: #42163b; }
 .vslider-bg-mango { background-color: #5c3308; }
 .vslider-bg-pitaya { background-color: #520c30; }
+.vslider-bg-chocolate_bowl { background-color: #3d1e16; }
 .vslider-bg-acai { background-color: #231138; }
+.vslider-bg-blueberry_bowl { background-color: #1a1f42; }
 
 .vslider::before {
   content: "";
@@ -47,6 +50,31 @@
 .vslider__stage:active { cursor: grabbing; }
 .vslider__stage > * { grid-area: 1 / 1; }
 .vslider__stage-bowl { user-select: none; -webkit-user-select: none; pointer-events: none; }
+
+.vslider__bg-watermark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+.vslider__bg-letter {
+  display: inline-block;
+  font: 400 clamp(320px, 72vw, 920px) / 0.8 "Anton", sans-serif;
+  color: rgba(255, 255, 255, 0.16);
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.32);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
 
 .vslider__word {
   margin: 0;

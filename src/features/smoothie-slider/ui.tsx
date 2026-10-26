@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { message } from "antd";
 import { If, useCart } from "@/shared";
 import { RenderFooter } from "./ui/renderFooter";
@@ -20,7 +20,7 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
   onScrollToNext,
 }) => {
   const [[index, dir], setState] = useState<[number, number]>([0, 1]);
-  const [busy, setBusy] = useState<boolean>(false);
+  const lastPaginateTimeRef = useRef<number>(0);
   const [currentTab, setCurrentTab] = useState<string>("Home");
   const [isNutritionOpen, setIsNutritionOpen] = useState<boolean>(false);
 
@@ -29,24 +29,32 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
 
   const paginate = useCallback(
     (nextDir: number) => {
-      if (busy || smoothies.length === 0) return;
-      setBusy(true);
+      const now = Date.now();
+      if (now - lastPaginateTimeRef.current < 550 || smoothies.length === 0) return;
+      lastPaginateTimeRef.current = now;
       setState(([prevIndex]) => [
         (prevIndex + nextDir + smoothies.length) % smoothies.length,
         nextDir,
       ]);
     },
-    [busy, smoothies.length],
+    [smoothies.length],
   );
 
   const paginateToIndex = useCallback(
     (targetIndex: number) => {
-      if (busy || targetIndex === index || smoothies.length === 0) return;
+      const now = Date.now();
+      if (
+        now - lastPaginateTimeRef.current < 550 ||
+        targetIndex === index ||
+        smoothies.length === 0
+      ) {
+        return;
+      }
+      lastPaginateTimeRef.current = now;
       const nextDir = targetIndex > index ? 1 : -1;
-      setBusy(true);
       setState([targetIndex, nextDir]);
     },
-    [busy, index, smoothies.length],
+    [index, smoothies.length],
   );
 
   const handlePrev = useCallback(() => {
@@ -57,9 +65,7 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
     paginate(1);
   }, [paginate]);
 
-  const handleAnimationEnd = useCallback(() => {
-    setBusy(false);
-  }, []);
+  const handleAnimationEnd = useCallback(() => {}, []);
 
   const handleSelectTab = useCallback((tab: string) => {
     setCurrentTab(tab);
@@ -89,9 +95,9 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
     let lastWheelTime = 0;
     const handleWheel = (e: WheelEvent) => {
       const now = Date.now();
-      if (now - lastWheelTime < 700) return;
 
-      if (Math.abs(e.deltaX) > 20) {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 20) {
+        if (now - lastWheelTime < 600) return;
         if (e.deltaX > 20) {
           handleNext();
           lastWheelTime = now;
@@ -99,8 +105,9 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
           handlePrev();
           lastWheelTime = now;
         }
-      } else if (Math.abs(e.deltaY) > 30) {
-        if (e.deltaY > 30) {
+      } else if (Math.abs(e.deltaY) > 25) {
+        if (now - lastWheelTime < 600) return;
+        if (e.deltaY > 25) {
           if (onScrollToNext) {
             onScrollToNext();
             lastWheelTime = now;
@@ -108,7 +115,7 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
             handleNext();
             lastWheelTime = now;
           }
-        } else if (e.deltaY < -30) {
+        } else if (e.deltaY < -25) {
           handlePrev();
           lastWheelTime = now;
         }

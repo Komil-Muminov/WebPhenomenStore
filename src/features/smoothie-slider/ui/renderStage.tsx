@@ -14,15 +14,15 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
 }) => {
   const dragDistanceRef = useRef<number>(0);
 
-  const handleDragStart = () => {
+  const handlePanStart = () => {
     dragDistanceRef.current = 0;
   };
 
-  const handleDrag = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handlePan = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     dragDistanceRef.current = Math.abs(info.offset.x) + Math.abs(info.offset.y);
   };
 
-  const handleDragEnd = (
+  const handlePanEnd = (
     _: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo,
   ) => {
@@ -38,6 +38,7 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
     _: MouseEvent | TouchEvent | PointerEvent,
     info: TapInfo,
   ) => {
+    if (dragDistanceRef.current > 15) return;
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
     const distFromCenter = Math.hypot(
@@ -52,12 +53,9 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
   return (
     <motion.div
       className="slider__stage"
-      drag="x"
-      dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={0.25}
-      onDragStart={handleDragStart}
-      onDrag={handleDrag}
-      onDragEnd={handleDragEnd}
+      onPanStart={handlePanStart}
+      onPan={handlePan}
+      onPanEnd={handlePanEnd}
       onTap={handleStageTap}
     >
       <AnimatePresence initial={false} custom={dir} mode="popLayout">

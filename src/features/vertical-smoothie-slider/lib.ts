@@ -31,6 +31,17 @@ export const verticalWordVariants: Variants = {
   }),
 };
 
+export const verticalBgLetterVariants: Variants = {
+  enter: (dir: number) => ({ y: `${dir * 45}vh`, opacity: 0, scale: 0.9 }),
+  center: { y: 0, opacity: 1, scale: 1, transition: { duration: DURATION, ease: EASE } },
+  exit: (dir: number) => ({
+    y: `${-dir * 45}vh`,
+    opacity: 0,
+    scale: 1.08,
+    transition: { duration: DURATION * 0.8, ease: EASE },
+  }),
+};
+
 export const verticalTextVariants: Variants = {
   enter: { x: -20, opacity: 0 },
   center: { x: 0, opacity: 1, transition: { delay: 0.4, duration: 0.5 } },

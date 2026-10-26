@@ -20,9 +20,11 @@ export const Logo: React.FC<ILogoProps> = ({ className = "", onClick }) => {
 
   return (
     <Link to={AppRoutes.HOME} className={containerClass} onClick={handleClick}>
-      <span className="brand-logo__text">PHENOMEN</span>
+      <span className="brand-logo__text">ФЕНОМЕН</span>
     </Link>
   );
 };
+
+
 
 

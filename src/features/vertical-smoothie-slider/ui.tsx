@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { message } from "antd";
 import { useCart } from "@/shared";
 import { RenderNutritionModal } from "@/features/smoothie-slider/ui/renderNutritionModal";
@@ -10,9 +10,12 @@ import "./style.css";
 
 const SUPERFOOD_PRICES: Record<string, number> = {
   matcha: 450,
+  blackberry_bowl: 440,
   mango: 430,
   pitaya: 460,
+  chocolate_bowl: 470,
   acai: 480,
+  blueberry_bowl: 450,
 };
 
 export const VerticalSmoothieSlider: React.FC<IVerticalSmoothieSliderProps> = ({
@@ -20,7 +23,7 @@ export const VerticalSmoothieSlider: React.FC<IVerticalSmoothieSliderProps> = ({
   onScrollToTop,
 }) => {
   const [[index, dir], setState] = useState<[number, number]>([0, 1]);
-  const [busy, setBusy] = useState<boolean>(false);
+  const lastPaginateTimeRef = useRef<number>(0);
   const [isNutritionOpen, setIsNutritionOpen] = useState<boolean>(false);
 
   const { addItem } = useCart();
@@ -28,24 +31,32 @@ export const VerticalSmoothieSlider: React.FC<IVerticalSmoothieSliderProps> = ({
 
   const paginate = useCallback(
     (nextDir: number) => {
-      if (busy || smoothies.length === 0) return;
-      setBusy(true);
+      const now = Date.now();
+      if (now - lastPaginateTimeRef.current < 550 || smoothies.length === 0) return;
+      lastPaginateTimeRef.current = now;
       setState(([prevIndex]) => [
         (prevIndex + nextDir + smoothies.length) % smoothies.length,
         nextDir,
       ]);
     },
-    [busy, smoothies.length],
+    [smoothies.length],
   );
 
   const paginateToIndex = useCallback(
     (targetIndex: number) => {
-      if (busy || targetIndex === index || smoothies.length === 0) return;
+      const now = Date.now();
+      if (
+        now - lastPaginateTimeRef.current < 550 ||
+        targetIndex === index ||
+        smoothies.length === 0
+      ) {
+        return;
+      }
+      lastPaginateTimeRef.current = now;
       const nextDir = targetIndex > index ? 1 : -1;
-      setBusy(true);
       setState([targetIndex, nextDir]);
     },
-    [busy, index, smoothies.length],
+    [index, smoothies.length],
   );
 
   const handlePrev = useCallback(() => {
@@ -56,9 +67,7 @@ export const VerticalSmoothieSlider: React.FC<IVerticalSmoothieSliderProps> = ({
     paginate(1);
   }, [paginate]);
 
-  const handleAnimationEnd = useCallback(() => {
-    setBusy(false);
-  }, []);
+  const handleAnimationEnd = useCallback(() => {}, []);
 
   const handleAddToCart = useCallback(() => {
     const price = SUPERFOOD_PRICES[current.id] ?? 450;

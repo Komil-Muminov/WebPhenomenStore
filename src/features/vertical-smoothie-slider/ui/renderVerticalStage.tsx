@@ -3,6 +3,7 @@ import { AnimatePresence, motion, type PanInfo, type TapInfo } from "framer-moti
 import { SmoothieBowl } from "@/entities";
 import {
   checkVerticalSwipeDirection,
+  verticalBgLetterVariants,
   verticalBowlVariants,
   verticalDecorVariants,
   verticalWordVariants,
@@ -19,15 +20,15 @@ export const RenderVerticalStage: React.FC<IVerticalStageProps> = ({
 }) => {
   const dragDistanceRef = useRef<number>(0);
 
-  const handleDragStart = () => {
+  const handlePanStart = () => {
     dragDistanceRef.current = 0;
   };
 
-  const handleDrag = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handlePan = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     dragDistanceRef.current = Math.abs(info.offset.x) + Math.abs(info.offset.y);
   };
 
-  const handleDragEnd = (
+  const handlePanEnd = (
     _: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo,
   ) => {
@@ -43,6 +44,7 @@ export const RenderVerticalStage: React.FC<IVerticalStageProps> = ({
     _: MouseEvent | TouchEvent | PointerEvent,
     info: TapInfo,
   ) => {
+    if (dragDistanceRef.current > 15) return;
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
     const distFromCenter = Math.hypot(
@@ -57,14 +59,27 @@ export const RenderVerticalStage: React.FC<IVerticalStageProps> = ({
   return (
     <motion.div
       className="vslider__stage"
-      drag="y"
-      dragConstraints={{ top: 0, bottom: 0 }}
-      dragElastic={0.25}
-      onDragStart={handleDragStart}
-      onDrag={handleDrag}
-      onDragEnd={handleDragEnd}
+      onPanStart={handlePanStart}
+      onPan={handlePan}
+      onPanEnd={handlePanEnd}
       onTap={handleStageTap}
     >
+      <div className="vslider__bg-watermark">
+        <AnimatePresence initial={false} custom={dir} mode="popLayout">
+          <motion.span
+            key={`vbg-letter-${current.id}`}
+            className="vslider__bg-letter"
+            custom={dir}
+            variants={verticalBgLetterVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+          >
+            {current.bgLetter ?? "Ф"}
+          </motion.span>
+        </AnimatePresence>
+      </div>
+
       <AnimatePresence initial={false} custom={dir} mode="popLayout">
         <motion.h1
           key={`vword-${current.id}`}

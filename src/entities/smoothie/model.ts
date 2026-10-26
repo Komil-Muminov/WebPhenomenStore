@@ -17,6 +17,7 @@ export interface ISmoothie {
   image?: string;
   toppings: string[];
   decor: string[];
+  bgLetter?: string;
   nutrition?: INutritionInfo;
 }
 
