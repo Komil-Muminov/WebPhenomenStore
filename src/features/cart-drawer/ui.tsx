@@ -1,7 +1,8 @@
 import React from "react";
-import { ShoppingCartOutlined, PlusOutlined, MinusOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Badge, Button, Drawer, Empty, message } from "antd";
-import { If, Tooltip, useCart } from "@/shared";
+import { Link } from "react-router-dom";
+import { ShoppingCartOutlined, PlusOutlined, MinusOutlined, DeleteOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { Badge, Button, Drawer, message } from "antd";
+import { AppRoutes, If, Tooltip, useCart } from "@/shared";
 import type { ICartDrawerProps } from "./model";
 import "./style.css";
 
@@ -20,7 +21,7 @@ export const CartDrawer: React.FC<ICartDrawerProps> = () => {
   } = useCart();
 
   const handleCheckout = () => {
-    message.success("Заказ успешно оформлен! Наш менеджер свяжется с вами.");
+    message.success("Заказ успешно оформлен! Приготовим и доставим за 30 минут.");
     clearCart();
     closeDrawer();
   };
@@ -36,9 +37,15 @@ export const CartDrawer: React.FC<ICartDrawerProps> = () => {
           onClick={openDrawer}
           aria-label="Корзина"
         >
-          <Badge count={totalCount} size="small" offset={[2, -2]}>
-            <ShoppingCartOutlined className="text-white!" />
-          </Badge>
+          <div className="cart-drawer__trigger-icon">
+            <Badge count={totalCount} size="small" offset={[2, -2]}>
+              <ShoppingCartOutlined className="text-white! text-lg!" />
+            </Badge>
+          </div>
+          <span className="cart-drawer__trigger-text">Корзина</span>
+          <If condition={totalPrice > 0}>
+            <span className="cart-drawer__trigger-price">{totalPrice} ₽</span>
+          </If>
         </button>
       </Tooltip>
 
@@ -47,80 +54,108 @@ export const CartDrawer: React.FC<ICartDrawerProps> = () => {
         placement="right"
         onClose={closeDrawer}
         open={isOpen}
-        width={380}
+        width={420}
+        className="cart-drawer__panel"
       >
         <If condition={!hasItems}>
-          <div className="flex! h-64! items-center! justify-center!">
-            <Empty description="В корзине пока пусто" />
+          <div className="flex! flex-col! h-full! items-center! justify-center! text-center! py-12!">
+            <div className="w-20! h-20! rounded-full! bg-white/5! border! border-white/10! flex! items-center! justify-center! mb-4! text-3xl! text-neutral-400!">
+              <ShoppingCartOutlined />
+            </div>
+            <h3 className="text-lg! font-bold! text-white! mb-1!">Корзина пуста</h3>
+            <p className="text-sm! text-neutral-400! max-w-xs! mb-6!">
+              Выберите смузи из нашего свежего меню, чтобы оформить заказ
+            </p>
+            <Link to={AppRoutes.MENU} onClick={closeDrawer}>
+              <Button type="primary" className="rounded-full! px-6!">
+                Смотреть меню
+              </Button>
+            </Link>
           </div>
         </If>
 
         <If condition={hasItems}>
           <div className="flex! flex-col! h-full! justify-between!">
-            <div className="overflow-y-auto! max-h-[60vh]!">
+            <div className="overflow-y-auto! max-h-[58vh]! pr-1!">
               {items.map((item) => (
-                <div key={item.id} className="cart-drawer__item">
-                  <div className="cart-drawer__item-info">
+                <div key={item.id} className="cart-drawer__card">
+                  <div className="cart-drawer__card-info">
                     <If condition={Boolean(item.image)}>
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="cart-drawer__item-img"
+                        className="cart-drawer__card-img"
                       />
                     </If>
                     <div>
-                      <div className="cart-drawer__item-title">{item.title}</div>
-                      <div className="cart-drawer__item-price">
-                        {item.price} ₽ × {item.count} = {item.price * item.count} ₽
-                      </div>
+                      <h4 className="cart-drawer__card-name">{item.title}</h4>
+                      <div className="cart-drawer__card-price">{item.price} ₽</div>
                     </div>
                   </div>
 
-                  <div className="cart-drawer__item-controls">
-                    <Tooltip title="Уменьшить">
-                      <Button
-                        type="text"
-                        size="small"
-                        icon={<MinusOutlined />}
+                  <div className="flex! items-center! gap-2!">
+                    <div className="cart-drawer__stepper">
+                      <button
+                        type="button"
+                        className="cart-drawer__stepper-btn"
                         onClick={() => decrementItem(item.id)}
-                      />
-                    </Tooltip>
-                    <span className="font-semibold! text-sm! px-1!">{item.count}</span>
-                    <Tooltip title="Увеличить">
-                      <Button
-                        type="text"
-                        size="small"
-                        icon={<PlusOutlined />}
+                        aria-label="Уменьшить количество"
+                      >
+                        <MinusOutlined />
+                      </button>
+                      <span className="cart-drawer__stepper-count">{item.count}</span>
+                      <button
+                        type="button"
+                        className="cart-drawer__stepper-btn"
                         onClick={() => addItem(item)}
-                      />
-                    </Tooltip>
+                        aria-label="Увеличить количество"
+                      >
+                        <PlusOutlined />
+                      </button>
+                    </div>
                     <Tooltip title="Удалить">
-                      <Button
-                        type="text"
-                        danger
-                        size="small"
-                        icon={<DeleteOutlined />}
+                      <button
+                        type="button"
+                        className="cart-drawer__stepper-btn text-rose-400! hover:text-rose-300!"
                         onClick={() => removeItem(item.id)}
-                      />
+                        aria-label="Удалить товар"
+                      >
+                        <DeleteOutlined />
+                      </button>
                     </Tooltip>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="cart-drawer__footer border-t! border-white/10!">
-              <div className="cart-drawer__total">
-                <span>Итого к оплате:</span>
-                <span className="text-emerald-400!">{totalPrice} ₽</span>
+            <div className="pt-2!">
+              <div className="cart-drawer__summary">
+                <div className="cart-drawer__summary-row">
+                  <span>Сумма блюд:</span>
+                  <span className="text-white! font-medium!">{totalPrice} ₽</span>
+                </div>
+                <div className="cart-drawer__summary-row">
+                  <span>Эко-упаковка:</span>
+                  <span className="text-emerald-400!">Бесплатно</span>
+                </div>
+                <div className="cart-drawer__summary-row">
+                  <span>Доставка:</span>
+                  <span className="text-emerald-400!">0 ₽</span>
+                </div>
+                <div className="cart-drawer__summary-total">
+                  <span>Итого:</span>
+                  <span className="text-emerald-400! text-xl!">{totalPrice} ₽</span>
+                </div>
               </div>
+
               <Button
                 type="primary"
                 block
                 size="large"
-                className="rounded-full!"
+                className="rounded-full! mt-4! h-12! text-base! font-bold! flex! items-center! justify-center! gap-2!"
                 onClick={handleCheckout}
               >
-                Оформить заказ
+                Оформить заказ <ArrowRightOutlined />
               </Button>
             </div>
           </div>

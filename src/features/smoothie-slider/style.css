@@ -11,21 +11,10 @@
   transition: background-color 1s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-.slider-bg-blueberry {
-  background-color: #2c2a5c;
-}
-
-.slider-bg-strawberry {
-  background-color: #7c1426;
-}
-
-.slider-bg-chocolate {
-  background-color: #4a2720;
-}
-
-.slider-bg-blackberry {
-  background-color: #521b3f;
-}
+.slider-bg-blueberry { background-color: #2c2a5c; }
+.slider-bg-strawberry { background-color: #7c1426; }
+.slider-bg-chocolate { background-color: #4a2720; }
+.slider-bg-blackberry { background-color: #521b3f; }
 
 .slider::before {
   content: "";
@@ -44,10 +33,7 @@
   font: 600 14px "Inter", sans-serif;
 }
 
-.slider__nav-list {
-  display: flex;
-  gap: 8px;
-}
+.slider__nav-list { display: flex; gap: 8px; }
 
 .slider__nav-link {
   padding: 6px 16px;
@@ -60,22 +46,9 @@
   color: #fff;
 }
 
-.slider__nav-link:hover {
-  opacity: 0.95;
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.slider__nav-link-active {
-  background-color: #fff;
-  color: #111;
-  opacity: 1;
-}
-
-.slider__logo {
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: -0.02em;
-}
+.slider__nav-link:hover { opacity: 0.95; background-color: rgba(255, 255, 255, 0.1); }
+.slider__nav-link-active { background-color: #fff; color: #111; opacity: 1; }
+.slider__logo { font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
 
 .slider__stage {
   position: relative;
@@ -85,18 +58,9 @@
   touch-action: pan-y;
 }
 
-.slider__stage > * {
-  grid-area: 1 / 1;
-}
-
-.slider__stage-bowl {
-  cursor: grab;
-  user-select: none;
-}
-
-.slider__stage-bowl:active {
-  cursor: grabbing;
-}
+.slider__stage > * { grid-area: 1 / 1; }
+.slider__stage-bowl { cursor: grab; user-select: none; }
+.slider__stage-bowl:active { cursor: grabbing; }
 
 .slider__word {
   margin: 0;
@@ -116,20 +80,9 @@
   pointer-events: none;
 }
 
-.slider__decor-pos-0 {
-  top: 14%;
-  left: 12%;
-}
-
-.slider__decor-pos-1 {
-  top: 12%;
-  right: 12%;
-}
-
-.slider__decor-pos-2 {
-  bottom: 16%;
-  right: 22%;
-}
+.slider__decor-pos-0 { top: 14%; left: 12%; }
+.slider__decor-pos-1 { top: 12%; right: 12%; }
+.slider__decor-pos-2 { bottom: 16%; right: 22%; }
 
 .slider__footer {
   position: relative;
@@ -141,42 +94,12 @@
   font-family: "Inter", sans-serif;
 }
 
-.slider__footer-title {
-  margin: 0 0 6px;
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.slider__footer-desc {
-  margin: 0 0 12px;
-  max-width: 340px;
-  font-size: 14px;
-  opacity: 0.75;
-}
-
-.slider__footer-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.slider__pagination {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.slider__pagination-counter {
-  font-size: 13px;
-  letter-spacing: 0.05em;
-  opacity: 0.8;
-  font-weight: 600;
-}
-
-.slider__pagination-bars {
-  display: flex;
-  gap: 6px;
-}
+.slider__footer-title { margin: 0 0 6px; font-size: 22px; font-weight: 700; }
+.slider__footer-desc { margin: 0 0 12px; max-width: 340px; font-size: 14px; opacity: 0.75; }
+.slider__footer-actions { display: flex; align-items: center; gap: 10px; }
+.slider__pagination { display: flex; align-items: center; gap: 16px; }
+.slider__pagination-counter { font-size: 13px; letter-spacing: 0.05em; opacity: 0.8; font-weight: 600; }
+.slider__pagination-bars { display: flex; gap: 6px; }
 
 .slider__pagination-bar {
   width: 24px;
@@ -189,16 +112,8 @@
   transition: width 0.3s, background-color 0.3s;
 }
 
-.slider__pagination-bar-active {
-  width: 44px;
-  background-color: #fff;
-}
-
-.slider__controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+.slider__pagination-bar-active { width: 44px; background-color: #fff; }
+.slider__controls { display: flex; align-items: center; gap: 10px; }
 
 .slider__controls-btn {
   width: 44px;
@@ -215,7 +130,36 @@
   transition: background-color 0.2s, border-color 0.2s;
 }
 
-.slider__controls-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-color: #fff;
+.slider__controls-btn:hover { background-color: rgba(255, 255, 255, 0.2); border-color: #fff; }
+
+.smoothie-modal .ant-modal-content {
+  background: rgba(18, 16, 26, 0.96);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(140, 130, 255, 0.15);
+  color: #fff;
+  padding: 24px;
+}
+
+.smoothie-modal .ant-modal-header {
+  background: transparent;
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.smoothie-modal .ant-modal-title {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.smoothie-modal .ant-modal-close {
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.2s;
+}
+
+.smoothie-modal .ant-modal-close:hover {
+  color: #fff;
 }
