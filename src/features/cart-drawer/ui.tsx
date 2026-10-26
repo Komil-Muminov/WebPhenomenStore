@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCartOutlined, PlusOutlined, MinusOutlined, DeleteOutlined, ArrowRightOutlined } from "@ant-design/icons";
-import { Badge, Button, Drawer, message } from "antd";
+import { Button, Drawer, message } from "antd";
 import { AppRoutes, If, Tooltip, useCart } from "@/shared";
 import { CartButton } from "./ui/cartButton";
 import type { ICartDrawerProps } from "./model";
@@ -12,6 +12,7 @@ export const CartDrawer: React.FC<ICartDrawerProps> = ({
 }) => {
   const {
     items,
+    totalPrice,
     isOpen,
     closeDrawer,
     addItem,
