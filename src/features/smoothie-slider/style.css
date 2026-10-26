@@ -56,11 +56,16 @@
   display: grid;
   place-items: center;
   touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+
+.slider__stage:active {
+  cursor: grabbing;
 }
 
 .slider__stage > * { grid-area: 1 / 1; }
-.slider__stage-bowl { cursor: grab; user-select: none; }
-.slider__stage-bowl:active { cursor: grabbing; }
+.slider__stage-bowl { user-select: none; }
 
 .slider__word {
   margin: 0;
@@ -70,6 +75,7 @@
   text-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   z-index: 1;
   user-select: none;
+  pointer-events: none;
 }
 
 .slider__decor {

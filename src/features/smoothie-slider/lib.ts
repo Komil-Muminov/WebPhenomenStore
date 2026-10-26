@@ -4,9 +4,10 @@ import type { IDecorCustom } from "./model";
 export const EASE = [0.76, 0, 0.24, 1] as const;
 export const DURATION = 1;
 
-export const swipeConfidenceThreshold = 10000;
-export const swipePower = (offset: number, velocity: number): number => {
-  return Math.abs(offset) * velocity;
+export const checkSwipeDirection = (offset: number, velocity: number): number => {
+  const isSwipe = Math.abs(offset) > 50 || Math.abs(velocity) > 300;
+  if (!isSwipe) return 0;
+  return offset < 0 || velocity < -300 ? 1 : -1;
 };
 
 export const bowlVariants: Variants = {

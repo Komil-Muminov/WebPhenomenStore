@@ -82,6 +82,35 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({ smoothies }) =>
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleNext, handlePrev]);
 
+  useEffect(() => {
+    let lastWheelTime = 0;
+    const handleWheel = (e: WheelEvent) => {
+      const now = Date.now();
+      if (now - lastWheelTime < 700) return;
+
+      if (Math.abs(e.deltaX) > 20) {
+        if (e.deltaX > 20) {
+          handleNext();
+          lastWheelTime = now;
+        } else if (e.deltaX < -20) {
+          handlePrev();
+          lastWheelTime = now;
+        }
+      } else if (Math.abs(e.deltaY) > 30) {
+        if (e.deltaY > 30) {
+          handleNext();
+          lastWheelTime = now;
+        } else if (e.deltaY < -30) {
+          handlePrev();
+          lastWheelTime = now;
+        }
+      }
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [handleNext, handlePrev]);
+
   const containerClass = `slider slider-bg-${current?.id ?? "blueberry"}`;
 
   return (

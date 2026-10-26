@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useRef } from "react";
 import { AnimatePresence, motion, type PanInfo } from "framer-motion";
 import { SmoothieBowl } from "@/entities";
-import { bowlVariants, decorVariants, swipeConfidenceThreshold, swipePower, wordVariants } from "../lib";
+import { bowlVariants, checkSwipeDirection, decorVariants, wordVariants } from "../lib";
 import type { IRenderStageProps } from "../model";
 
 export const RenderStage: React.FC<IRenderStageProps> = ({
@@ -12,20 +12,39 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
   onNext,
   onOpenNutrition,
 }) => {
+  const dragDistanceRef = useRef<number>(0);
+
+  const handleDrag = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    dragDistanceRef.current = Math.abs(info.offset.x) + Math.abs(info.offset.y);
+  };
+
   const handleDragEnd = (
     _: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo,
   ) => {
-    const swipe = swipePower(info.offset.x, info.velocity.x);
-    if (swipe < -swipeConfidenceThreshold) {
+    const swipeDir = checkSwipeDirection(info.offset.x, info.velocity.x);
+    if (swipeDir === 1) {
       onNext();
-    } else if (swipe > swipeConfidenceThreshold) {
+    } else if (swipeDir === -1) {
       onPrev();
     }
   };
 
+  const handleBowlClick = () => {
+    if (dragDistanceRef.current < 10) {
+      onOpenNutrition();
+    }
+  };
+
   return (
-    <div className="slider__stage">
+    <motion.div
+      className="slider__stage"
+      drag="x"
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.25}
+      onDrag={handleDrag}
+      onDragEnd={handleDragEnd}
+    >
       <AnimatePresence initial={false} custom={dir} mode="popLayout">
         <motion.h1
           key={`word-${current.id}`}
@@ -49,12 +68,8 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
           initial="enter"
           animate="center"
           exit="exit"
-          drag="x"
-          dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={0.2}
-          onDragEnd={handleDragEnd}
           onAnimationComplete={onAnimationEnd}
-          onClick={onOpenNutrition}
+          onClick={handleBowlClick}
         >
           <SmoothieBowl smoothie={current} />
         </motion.div>
@@ -75,6 +90,6 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
           </motion.span>
         ))}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 };
