@@ -127,7 +127,6 @@ export const VerticalSmoothieSlider: React.FC<IVerticalSmoothieSliderProps> = ({
         onAnimationEnd={handleAnimationEnd}
         onPrev={handlePrev}
         onNext={handleNext}
-        onOpenNutrition={() => setIsNutritionOpen(true)}
       />
       <RenderVerticalFooter
         current={current}

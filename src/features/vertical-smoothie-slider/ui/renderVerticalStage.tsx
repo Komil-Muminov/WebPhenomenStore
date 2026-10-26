@@ -1,11 +1,10 @@
-import React, { useRef } from "react";
-import { AnimatePresence, motion, type PanInfo, type TapInfo } from "framer-motion";
+import React from "react";
+import { AnimatePresence, motion, type PanInfo } from "framer-motion";
 import { SmoothieBowl } from "@/entities";
 import {
   checkVerticalSwipeDirection,
   verticalBowlVariants,
   verticalDecorVariants,
-  verticalWordVariants,
 } from "../lib";
 import type { IVerticalStageProps } from "../model";
 
@@ -18,18 +17,7 @@ export const RenderVerticalStage: React.FC<IVerticalStageProps> = ({
   onAnimationEnd,
   onPrev,
   onNext,
-  onOpenNutrition,
 }) => {
-  const dragDistanceRef = useRef<number>(0);
-
-  const handlePanStart = () => {
-    dragDistanceRef.current = 0;
-  };
-
-  const handlePan = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    dragDistanceRef.current = Math.abs(info.offset.x) + Math.abs(info.offset.y);
-  };
-
   const handlePanEnd = (
     _: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo,
@@ -42,29 +30,10 @@ export const RenderVerticalStage: React.FC<IVerticalStageProps> = ({
     }
   };
 
-  const handleStageTap = (
-    _: MouseEvent | TouchEvent | PointerEvent,
-    info: TapInfo,
-  ) => {
-    if (dragDistanceRef.current > 15) return;
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    const distFromCenter = Math.hypot(
-      info.point.x - centerX,
-      info.point.y - centerY,
-    );
-    if (distFromCenter < 240) {
-      onOpenNutrition();
-    }
-  };
-
   return (
     <motion.div
       className="vslider__stage"
-      onPanStart={handlePanStart}
-      onPan={handlePan}
       onPanEnd={handlePanEnd}
-      onTap={handleStageTap}
     >
       <div className="vslider__horizon-wordmark">
         {PHENOMEN_LETTERS.map((letter, i) => {
@@ -77,20 +46,6 @@ export const RenderVerticalStage: React.FC<IVerticalStageProps> = ({
           );
         })}
       </div>
-
-      <AnimatePresence initial={false} custom={dir} mode="popLayout">
-        <motion.h1
-          key={`vword-${current.id}`}
-          className="vslider__word"
-          custom={dir}
-          variants={verticalWordVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-        >
-          {current.word}
-        </motion.h1>
-      </AnimatePresence>
 
       <AnimatePresence initial={false} custom={dir} mode="popLayout">
         <motion.div

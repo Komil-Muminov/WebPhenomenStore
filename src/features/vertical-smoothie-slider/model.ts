@@ -21,7 +21,6 @@ export interface IVerticalStageProps {
   onAnimationEnd: () => void;
   onPrev: () => void;
   onNext: () => void;
-  onOpenNutrition: () => void;
 }
 
 export interface IVerticalFooterProps {
