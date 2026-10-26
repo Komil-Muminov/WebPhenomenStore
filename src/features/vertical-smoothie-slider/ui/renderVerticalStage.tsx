@@ -84,7 +84,7 @@ export const RenderVerticalStage: React.FC<IVerticalStageProps> = ({
       <AnimatePresence initial={false} custom={dir} mode="popLayout">
         <motion.div
           key={`vbowl-${current.id}`}
-          className="vslider__stage-bowl"
+          className={`vslider__stage-bowl ${isDescriptionOpen ? "z-35!" : ""}`}
           custom={dir}
           variants={verticalBowlVariants}
           initial="enter"
@@ -96,8 +96,7 @@ export const RenderVerticalStage: React.FC<IVerticalStageProps> = ({
         >
           <motion.div
             animate={{
-              y: isDescriptionOpen ? -75 : 0,
-              scale: isDescriptionOpen ? 0.88 : 1,
+              scale: isDescriptionOpen ? 1.04 : 1,
             }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           >

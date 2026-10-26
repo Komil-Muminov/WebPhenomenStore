@@ -79,7 +79,7 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
       <AnimatePresence initial={false} custom={dir} mode="popLayout">
         <motion.div
           key={`bowl-${current.id}`}
-          className="slider__stage-bowl"
+          className={`slider__stage-bowl ${isDescriptionOpen ? "z-35!" : ""}`}
           custom={dir}
           variants={bowlVariants}
           initial="enter"
@@ -91,8 +91,7 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
         >
           <motion.div
             animate={{
-              y: isDescriptionOpen ? -75 : 0,
-              scale: isDescriptionOpen ? 0.88 : 1,
+              scale: isDescriptionOpen ? 1.04 : 1,
             }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           >
