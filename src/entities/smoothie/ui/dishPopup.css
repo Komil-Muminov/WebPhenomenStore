@@ -96,7 +96,6 @@
   transition: background-color 0.2s, color 0.2s, border-color 0.2s;
   padding: 0;
 }
-
 .dish-popup__close:hover {
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
@@ -128,19 +127,16 @@
   padding: 5px 10px;
   margin-bottom: 8px;
 }
-
 .dish-popup__macro {
   display: flex;
   align-items: baseline;
   gap: 4px;
 }
-
 .dish-popup__macro-label {
   font-size: 11px;
   color: rgba(255, 255, 255, 0.5);
   font-weight: 500;
 }
-
 .dish-popup__macro-val {
   font-size: 12px;
   font-weight: 700;
@@ -152,7 +148,6 @@
   gap: 5px;
   margin-bottom: 10px;
 }
-
 .dish-popup__tag {
   font-size: 11px;
   padding: 2px 8px;
@@ -184,7 +179,6 @@
   transition: background-color 0.2s, box-shadow 0.2s;
   box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
 }
-
 .dish-popup__btn-cart:hover {
   background: #f0f0f0;
   box-shadow: 0 10px 24px rgba(255, 255, 255, 0.25);
@@ -205,7 +199,6 @@
   cursor: pointer;
   transition: background-color 0.2s, border-color 0.2s;
 }
-
 .dish-popup__btn-details:hover {
   background: rgba(255, 255, 255, 0.18);
   border-color: rgba(255, 255, 255, 0.3);

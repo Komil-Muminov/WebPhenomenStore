@@ -105,7 +105,7 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
     let lastWheelTime = 0;
     const handleWheel = (e: WheelEvent) => {
       const now = Date.now();
-      if (now - activateTimeRef.current < 700) return;
+      if (now - activateTimeRef.current < 900) return;
 
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 20) {
         if (now - lastWheelTime < 600) return;

@@ -104,7 +104,7 @@ export const VerticalSmoothieSlider: React.FC<IVerticalSmoothieSliderProps> = ({
     let lastWheelTime = 0;
     const handleWheel = (e: WheelEvent) => {
       const now = Date.now();
-      if (now - activateTimeRef.current < 750) return;
+      if (now - activateTimeRef.current < 900) return;
       if (now - lastWheelTime < 600) return;
 
       if (Math.abs(e.deltaY) > 25) {
