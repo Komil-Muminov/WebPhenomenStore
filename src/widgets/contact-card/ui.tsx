@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeftOutlined, EnvironmentOutlined, MailOutlined, PhoneOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import { CartDrawer } from "@/features";
 import { AppRoutes, ErrorBoundary, Tooltip } from "@/shared";
 import type { IContactCardProps } from "./model";
 import "./style.css";
@@ -62,6 +63,7 @@ export const ContactCard: React.FC<IContactCardProps> = ({ className = "" }) => 
             </div>
           </div>
         </div>
+        <CartDrawer />
       </div>
     </ErrorBoundary>
   );

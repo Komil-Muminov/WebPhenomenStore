@@ -1,14 +1,29 @@
 import React from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, type PanInfo } from "framer-motion";
 import { SmoothieBowl } from "@/entities";
-import { bowlVariants, decorVariants, wordVariants } from "../lib";
+import { bowlVariants, decorVariants, swipeConfidenceThreshold, swipePower, wordVariants } from "../lib";
 import type { IRenderStageProps } from "../model";
 
 export const RenderStage: React.FC<IRenderStageProps> = ({
   current,
   dir,
   onAnimationEnd,
+  onPrev,
+  onNext,
+  onOpenNutrition,
 }) => {
+  const handleDragEnd = (
+    _: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo,
+  ) => {
+    const swipe = swipePower(info.offset.x, info.velocity.x);
+    if (swipe < -swipeConfidenceThreshold) {
+      onNext();
+    } else if (swipe > swipeConfidenceThreshold) {
+      onPrev();
+    }
+  };
+
   return (
     <div className="slider__stage">
       <AnimatePresence initial={false} custom={dir} mode="popLayout">
@@ -34,7 +49,12 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
           initial="enter"
           animate="center"
           exit="exit"
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.2}
+          onDragEnd={handleDragEnd}
           onAnimationComplete={onAnimationEnd}
+          onClick={onOpenNutrition}
         >
           <SmoothieBowl smoothie={current} />
         </motion.div>

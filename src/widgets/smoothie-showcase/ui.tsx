@@ -1,5 +1,5 @@
 import React from "react";
-import { SmoothieSlider } from "@/features";
+import { CartDrawer, SmoothieSlider } from "@/features";
 import { SMOOTHIES_DATA, type ISmoothie } from "@/entities";
 import { ApiRoutes, ErrorBoundary, If, QUERY_KEYS, Spinner, useGetQuery } from "@/shared";
 import { filterActiveSmoothies } from "./lib";
@@ -28,6 +28,7 @@ export const SmoothieShowcase: React.FC<ISmoothieShowcaseProps> = ({
         </If>
         <If condition={!isLoading}>
           <SmoothieSlider smoothies={smoothies} />
+          <CartDrawer />
         </If>
       </div>
     </ErrorBoundary>

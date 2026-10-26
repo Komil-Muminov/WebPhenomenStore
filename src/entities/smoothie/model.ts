@@ -1,3 +1,12 @@
+export interface INutritionInfo {
+  calories: number;
+  proteins: number;
+  fats: number;
+  carbs: number;
+  vitamins: string[];
+  ingredients: string[];
+}
+
 export interface ISmoothie {
   id: string;
   word: string;
@@ -8,6 +17,7 @@ export interface ISmoothie {
   image?: string;
   toppings: string[];
   decor: string[];
+  nutrition?: INutritionInfo;
 }
 
 export interface ISmoothieBowlProps {

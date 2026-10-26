@@ -1,15 +1,27 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { message } from "antd";
+import { useCart } from "@/shared";
 import { RenderFooter } from "./ui/renderFooter";
 import { RenderHeader } from "./ui/renderHeader";
+import { RenderNutritionModal } from "./ui/renderNutritionModal";
 import { RenderStage } from "./ui/renderStage";
 import type { ISmoothieSliderProps } from "./model";
 import "./style.css";
+
+const SMOOTHIE_PRICES_MAP: Record<string, number> = {
+  blueberry: 390,
+  strawberry: 350,
+  chocolate: 420,
+  blackberry: 410,
+};
 
 export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({ smoothies }) => {
   const [[index, dir], setState] = useState<[number, number]>([0, 1]);
   const [busy, setBusy] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<string>("Home");
+  const [isNutritionOpen, setIsNutritionOpen] = useState<boolean>(false);
 
+  const { addItem } = useCart();
   const current = smoothies[index] ?? smoothies[0];
 
   const paginate = useCallback(
@@ -22,6 +34,16 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({ smoothies }) =>
       ]);
     },
     [busy, smoothies.length],
+  );
+
+  const paginateToIndex = useCallback(
+    (targetIndex: number) => {
+      if (busy || targetIndex === index || smoothies.length === 0) return;
+      const nextDir = targetIndex > index ? 1 : -1;
+      setBusy(true);
+      setState([targetIndex, nextDir]);
+    },
+    [busy, index, smoothies.length],
   );
 
   const handlePrev = useCallback(() => {
@@ -39,6 +61,17 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({ smoothies }) =>
   const handleSelectTab = useCallback((tab: string) => {
     setCurrentTab(tab);
   }, []);
+
+  const handleAddToCart = useCallback(() => {
+    const price = SMOOTHIE_PRICES_MAP[current.id] ?? 350;
+    addItem({
+      id: current.id,
+      title: current.title,
+      price,
+      image: current.image,
+    });
+    message.success(`${current.title} добавлен в корзину`);
+  }, [addItem, current]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -58,11 +91,25 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({ smoothies }) =>
         current={current}
         dir={dir}
         onAnimationEnd={handleAnimationEnd}
+        onPrev={handlePrev}
+        onNext={handleNext}
+        onOpenNutrition={() => setIsNutritionOpen(true)}
       />
       <RenderFooter
         current={current}
+        currentIndex={index}
+        totalCount={smoothies.length}
         onPrev={handlePrev}
         onNext={handleNext}
+        onSelectIndex={paginateToIndex}
+        onOpenNutrition={() => setIsNutritionOpen(true)}
+        onAddToCart={handleAddToCart}
+      />
+      <RenderNutritionModal
+        smoothie={current}
+        open={isNutritionOpen}
+        onClose={() => setIsNutritionOpen(false)}
+        onAddToCart={handleAddToCart}
       />
     </section>
   );

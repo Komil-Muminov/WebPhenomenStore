@@ -1,14 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeftOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { ArrowLeftOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { Button, message } from "antd";
 import { SMOOTHIES_DATA, type ISmoothie } from "@/entities";
-import { AppRoutes, ApiRoutes, ErrorBoundary, If, QUERY_KEYS, Spinner, Tooltip, useGetQuery } from "@/shared";
+import { CartDrawer } from "@/features";
+import { AppRoutes, ApiRoutes, ErrorBoundary, If, QUERY_KEYS, Spinner, Tooltip, useCart, useGetQuery } from "@/shared";
 import { MENU_ITEMS_META } from "./lib";
 import type { IMenuListProps } from "./model";
 import "./style.css";
 
+const MENU_PRICES_MAP: Record<string, number> = {
+  blueberry: 390,
+  strawberry: 350,
+  chocolate: 420,
+  blackberry: 410,
+};
+
 export const MenuList: React.FC<IMenuListProps> = ({ className = "" }) => {
+  const { addItem } = useCart();
   const { data, isLoading } = useGetQuery<ISmoothie[]>({
     key: QUERY_KEYS.SMOOTHIES,
     url: ApiRoutes.SMOOTHIES_SEARCH,
@@ -17,6 +26,17 @@ export const MenuList: React.FC<IMenuListProps> = ({ className = "" }) => {
 
   const smoothies = data ?? SMOOTHIES_DATA;
   const containerClass = `menu-list ${className}`.trim();
+
+  const handleAddToCart = (smoothie: ISmoothie) => {
+    const price = MENU_PRICES_MAP[smoothie.id] ?? 350;
+    addItem({
+      id: smoothie.id,
+      title: smoothie.title,
+      price,
+      image: smoothie.image,
+    });
+    message.success(`${smoothie.title} добавлен в заказ`);
+  };
 
   return (
     <ErrorBoundary>
@@ -48,27 +68,51 @@ export const MenuList: React.FC<IMenuListProps> = ({ className = "" }) => {
             {smoothies.map((smoothie) => {
               const meta = MENU_ITEMS_META[smoothie.id] ?? { calories: 200, volume: "400 мл" };
               return (
-                <article key={smoothie.id} className="menu-list__card">
-                  <div className="menu-list__card-header">
-                    <h2 className="menu-list__card-name">{smoothie.title}</h2>
-                    <span className="menu-list__card-badge">{meta.volume}</span>
+                <article key={smoothie.id} className="menu-list__card flex! flex-col! justify-between!">
+                  <div>
+                    <If condition={Boolean(smoothie.image)}>
+                      <img
+                        src={smoothie.image}
+                        alt={smoothie.title}
+                        className="w-full! h-40! object-cover! rounded-xl! mb-3!"
+                      />
+                    </If>
+                    <div className="menu-list__card-header">
+                      <h2 className="menu-list__card-name">{smoothie.title}</h2>
+                      <span className="menu-list__card-badge">{meta.volume}</span>
+                    </div>
+                    <p className="menu-list__card-desc">{smoothie.description}</p>
+                    <div className="menu-list__card-tags mb-4!">
+                      {smoothie.toppings.map((topping, idx) => (
+                        <span
+                          key={`topping-${smoothie.id}-${idx}`}
+                          className="menu-list__card-tag"
+                        >
+                          {topping}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <p className="menu-list__card-desc">{smoothie.description}</p>
-                  <div className="menu-list__card-tags">
-                    {smoothie.toppings.map((topping, idx) => (
-                      <span
-                        key={`topping-${smoothie.id}-${idx}`}
-                        className="menu-list__card-tag"
+                  <div className="flex! items-center! justify-between! pt-2! border-t! border-white/10!">
+                    <span className="text-xs! text-neutral-400!">{meta.calories} ккал</span>
+                    <Tooltip title="Заказать этот смузи">
+                      <Button
+                        type="primary"
+                        size="small"
+                        icon={<ShoppingCartOutlined />}
+                        onClick={() => handleAddToCart(smoothie)}
+                        className="rounded-full!"
                       >
-                        {topping}
-                      </span>
-                    ))}
+                        В заказ
+                      </Button>
+                    </Tooltip>
                   </div>
                 </article>
               );
             })}
           </div>
         </If>
+        <CartDrawer />
       </div>
     </ErrorBoundary>
   );

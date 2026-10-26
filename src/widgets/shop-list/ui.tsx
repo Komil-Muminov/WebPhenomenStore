@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeftOutlined, ShoppingCartOutlined, CheckOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
 import { SMOOTHIES_DATA, type ISmoothie } from "@/entities";
-import { AppRoutes, ApiRoutes, ErrorBoundary, If, QUERY_KEYS, Spinner, Tooltip, useGetQuery } from "@/shared";
+import { CartDrawer } from "@/features";
+import { AppRoutes, ApiRoutes, ErrorBoundary, If, QUERY_KEYS, Spinner, Tooltip, useCart, useGetQuery } from "@/shared";
 import { SMOOTHIE_PRICES } from "./lib";
 import type { IShopListProps } from "./model";
 import "./style.css";
 
 export const ShopList: React.FC<IShopListProps> = ({ className = "" }) => {
-  const [cart, setCart] = useState<Record<string, number>>({});
+  const { addItem, items } = useCart();
   const { data, isLoading } = useGetQuery<ISmoothie[]>({
     key: QUERY_KEYS.SMOOTHIES,
     url: ApiRoutes.SMOOTHIES_SEARCH,
@@ -19,9 +20,14 @@ export const ShopList: React.FC<IShopListProps> = ({ className = "" }) => {
   const smoothies = data ?? SMOOTHIES_DATA;
   const containerClass = `shop-list ${className}`.trim();
 
-  const handleAddToCart = (id: string, title: string) => {
-    setCart((prev) => ({ ...prev, [id]: (prev[id] ?? 0) + 1 }));
-    message.success(`${title} добавлен в корзину`);
+  const handleAddToCart = (smoothie: ISmoothie, price: number) => {
+    addItem({
+      id: smoothie.id,
+      title: smoothie.title,
+      price,
+      image: smoothie.image,
+    });
+    message.success(`${smoothie.title} добавлен в корзину`);
   };
 
   return (
@@ -53,12 +59,20 @@ export const ShopList: React.FC<IShopListProps> = ({ className = "" }) => {
           <div className="shop-list__grid">
             {smoothies.map((smoothie) => {
               const price = SMOOTHIE_PRICES[smoothie.id] ?? 350;
-              const countInCart = cart[smoothie.id] ?? 0;
+              const cartItem = items.find((it) => it.id === smoothie.id);
+              const countInCart = cartItem?.count ?? 0;
               const isInCart = countInCart > 0;
 
               return (
                 <article key={smoothie.id} className="shop-list__item">
                   <div>
+                    <If condition={Boolean(smoothie.image)}>
+                      <img
+                        src={smoothie.image}
+                        alt={smoothie.title}
+                        className="w-full! h-48! object-cover! rounded-xl! mb-3!"
+                      />
+                    </If>
                     <div className="shop-list__item-header">
                       <h2 className="shop-list__item-title">{smoothie.title}</h2>
                       <span className="shop-list__item-price">{price} ₽</span>
@@ -70,7 +84,7 @@ export const ShopList: React.FC<IShopListProps> = ({ className = "" }) => {
                       <Button
                         type={isInCart ? "primary" : "default"}
                         icon={isInCart ? <CheckOutlined /> : <ShoppingCartOutlined />}
-                        onClick={() => handleAddToCart(smoothie.id, smoothie.title)}
+                        onClick={() => handleAddToCart(smoothie, price)}
                         className="rounded-full!"
                       >
                         {isInCart ? `В корзине (${countInCart})` : "В корзину"}
@@ -82,6 +96,7 @@ export const ShopList: React.FC<IShopListProps> = ({ className = "" }) => {
             })}
           </div>
         </If>
+        <CartDrawer />
       </div>
     </ErrorBoundary>
   );

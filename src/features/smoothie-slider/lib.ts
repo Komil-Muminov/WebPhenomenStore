@@ -4,6 +4,11 @@ import type { IDecorCustom } from "./model";
 export const EASE = [0.76, 0, 0.24, 1] as const;
 export const DURATION = 1;
 
+export const swipeConfidenceThreshold = 10000;
+export const swipePower = (offset: number, velocity: number): number => {
+  return Math.abs(offset) * velocity;
+};
+
 export const bowlVariants: Variants = {
   enter: (dir: number) => ({ x: `${dir * 100}vw`, rotate: dir * 200 }),
   center: { x: 0, rotate: 0, transition: { duration: DURATION, ease: EASE } },
