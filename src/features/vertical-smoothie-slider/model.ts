@@ -3,6 +3,7 @@ import type { ISmoothie } from "@/entities";
 export interface IVerticalSmoothieSliderProps {
   smoothies: ISmoothie[];
   onScrollToTop?: () => void;
+  isActive?: boolean;
 }
 
 export interface IDecorCustom {

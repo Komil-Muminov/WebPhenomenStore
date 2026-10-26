@@ -21,13 +21,22 @@ const SUPERFOOD_PRICES: Record<string, number> = {
 export const VerticalSmoothieSlider: React.FC<IVerticalSmoothieSliderProps> = ({
   smoothies,
   onScrollToTop,
+  isActive = true,
 }) => {
   const [[index, dir], setState] = useState<[number, number]>([0, 1]);
   const lastPaginateTimeRef = useRef<number>(0);
+  const activateTimeRef = useRef<number>(Date.now());
   const [isNutritionOpen, setIsNutritionOpen] = useState<boolean>(false);
 
   const { addItem } = useCart();
   const current = smoothies[index] ?? smoothies[0];
+
+  useEffect(() => {
+    if (isActive) {
+      activateTimeRef.current = Date.now();
+      setState([0, 1]);
+    }
+  }, [isActive]);
 
   const paginate = useCallback(
     (nextDir: number) => {
@@ -81,19 +90,22 @@ export const VerticalSmoothieSlider: React.FC<IVerticalSmoothieSliderProps> = ({
   }, [addItem, current]);
 
   useEffect(() => {
+    if (!isActive) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowDown") handleNext();
       if (e.key === "ArrowUp") handlePrev();
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleNext, handlePrev]);
+  }, [handleNext, handlePrev, isActive]);
 
   useEffect(() => {
+    if (!isActive) return;
     let lastWheelTime = 0;
     const handleWheel = (e: WheelEvent) => {
       const now = Date.now();
-      if (now - lastWheelTime < 700) return;
+      if (now - activateTimeRef.current < 750) return;
+      if (now - lastWheelTime < 600) return;
 
       if (Math.abs(e.deltaY) > 25) {
         if (e.deltaY > 25) {
@@ -113,7 +125,7 @@ export const VerticalSmoothieSlider: React.FC<IVerticalSmoothieSliderProps> = ({
 
     window.addEventListener("wheel", handleWheel, { passive: true });
     return () => window.removeEventListener("wheel", handleWheel);
-  }, [handleNext, handlePrev, index, onScrollToTop]);
+  }, [handleNext, handlePrev, index, onScrollToTop, isActive]);
 
   const containerClass = `vslider vslider-bg-${current?.id ?? "matcha"}`;
 

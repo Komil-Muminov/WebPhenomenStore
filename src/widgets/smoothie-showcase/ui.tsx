@@ -43,12 +43,14 @@ export const SmoothieShowcase: React.FC<ISmoothieShowcaseProps> = ({
               <SmoothieSlider
                 smoothies={smoothies}
                 onScrollToNext={handleScrollToNext}
+                isActive={activeSection === 0}
               />
             </div>
             <div className="smoothie-showcase__section">
               <VerticalSmoothieSlider
                 smoothies={SUPERFOOD_BOWLS_DATA}
                 onScrollToTop={handleScrollToTop}
+                isActive={activeSection === 1}
               />
             </div>
           </div>

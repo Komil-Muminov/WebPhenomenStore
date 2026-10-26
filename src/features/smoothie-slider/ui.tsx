@@ -18,14 +18,22 @@ const SMOOTHIE_PRICES_MAP: Record<string, number> = {
 export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
   smoothies,
   onScrollToNext,
+  isActive = true,
 }) => {
   const [[index, dir], setState] = useState<[number, number]>([0, 1]);
   const lastPaginateTimeRef = useRef<number>(0);
+  const activateTimeRef = useRef<number>(Date.now());
   const [currentTab, setCurrentTab] = useState<string>("Home");
   const [isNutritionOpen, setIsNutritionOpen] = useState<boolean>(false);
 
   const { addItem } = useCart();
   const current = smoothies[index] ?? smoothies[0];
+
+  useEffect(() => {
+    if (isActive) {
+      activateTimeRef.current = Date.now();
+    }
+  }, [isActive]);
 
   const paginate = useCallback(
     (nextDir: number) => {
@@ -83,18 +91,21 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
   }, [addItem, current]);
 
   useEffect(() => {
+    if (!isActive) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") handleNext();
       if (e.key === "ArrowLeft") handlePrev();
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleNext, handlePrev]);
+  }, [handleNext, handlePrev, isActive]);
 
   useEffect(() => {
+    if (!isActive) return;
     let lastWheelTime = 0;
     const handleWheel = (e: WheelEvent) => {
       const now = Date.now();
+      if (now - activateTimeRef.current < 700) return;
 
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 20) {
         if (now - lastWheelTime < 600) return;
@@ -124,7 +135,7 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
 
     window.addEventListener("wheel", handleWheel, { passive: true });
     return () => window.removeEventListener("wheel", handleWheel);
-  }, [handleNext, handlePrev, onScrollToNext]);
+  }, [handleNext, handlePrev, onScrollToNext, isActive]);
 
   const containerClass = `slider slider-bg-${current?.id ?? "blueberry"}`;
 
