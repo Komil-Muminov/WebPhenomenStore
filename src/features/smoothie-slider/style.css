@@ -181,35 +181,3 @@
 }
 
 .slider__controls-btn:hover { background-color: rgba(255, 255, 255, 0.2); border-color: #fff; }
-
-.smoothie-modal .ant-modal-content {
-  background: rgba(18, 16, 26, 0.96);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 24px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(140, 130, 255, 0.15);
-  color: #fff;
-  padding: 24px;
-}
-
-.smoothie-modal .ant-modal-header {
-  background: transparent;
-  border-bottom: none;
-  margin-bottom: 0;
-}
-
-.smoothie-modal .ant-modal-title {
-  color: #fff;
-  font-size: 22px;
-  font-weight: 800;
-}
-
-.smoothie-modal .ant-modal-close {
-  color: rgba(255, 255, 255, 0.6);
-  transition: color 0.2s;
-}
-
-.smoothie-modal .ant-modal-close:hover {
-  color: #fff;
-}
