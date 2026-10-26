@@ -48,7 +48,14 @@
 
 .slider__nav-link:hover { opacity: 0.95; background-color: rgba(255, 255, 255, 0.1); }
 .slider__nav-link-active { background-color: #fff; color: #111; opacity: 1; }
-.slider__logo { font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
+.slider__logo {
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  user-select: none;
+}
 
 .slider__stage {
   position: relative;
@@ -142,11 +149,7 @@
   transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
-.slider__btn-primary:hover {
-  background: #f3f3f3;
-  box-shadow: 0 12px 28px rgba(255, 255, 255, 0.25);
-}
-
+.slider__btn-primary:hover { background: #f3f3f3; box-shadow: 0 12px 28px rgba(255, 255, 255, 0.25); }
 .slider__pagination { display: flex; align-items: center; gap: 16px; }
 .slider__pagination-counter { font-size: 13px; letter-spacing: 0.05em; opacity: 0.8; font-weight: 600; }
 .slider__pagination-bars { display: flex; gap: 6px; }
@@ -183,18 +186,8 @@
   opacity: 0.5;
 }
 
-.slider__scroll-cue:hover {
-  opacity: 1;
-  border-color: #fff;
-}
-
-.slider__scroll-cue-dot {
-  width: 3px;
-  height: 6px;
-  border-radius: 2px;
-  background-color: #fff;
-  animation: scrollCueBounce 1.8s infinite ease-in-out;
-}
+.slider__scroll-cue:hover { opacity: 1; border-color: #fff; }
+.slider__scroll-cue-dot { width: 3px; height: 6px; border-radius: 2px; background-color: #fff; animation: scrollCueBounce 1.8s infinite ease-in-out; }
 
 @keyframes scrollCueBounce {
   0% { transform: translateY(0); opacity: 0.9; }

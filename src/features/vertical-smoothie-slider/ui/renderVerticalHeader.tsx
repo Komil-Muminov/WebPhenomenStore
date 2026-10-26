@@ -11,20 +11,20 @@ export const RenderVerticalHeader: React.FC<IVerticalHeaderProps> = ({
 
   return (
     <header className="vslider__nav">
-      <If condition={hasScrollToTop}>
-        <button
-          type="button"
-          className="vslider__nav-back"
-          onClick={onScrollToTop}
-          aria-label="Вернуться к классическому меню"
-        >
-          <ArrowUpOutlined />
-          <span>Smoothie Bar</span>
-        </button>
-      </If>
-      <If condition={!hasScrollToTop}>
-        <div className="slider__logo">PHENOMEN</div>
-      </If>
+      <div className="flex! items-center! gap-4!">
+        <span className="slider__logo">PHENOMEN</span>
+        <If condition={hasScrollToTop}>
+          <button
+            type="button"
+            className="vslider__nav-back"
+            onClick={onScrollToTop}
+            aria-label="Вернуться к классическому меню"
+          >
+            <ArrowUpOutlined />
+            <span>Smoothie Bar</span>
+          </button>
+        </If>
+      </div>
 
       <div className="flex! items-center! gap-3!">
         <div className="vslider__badge">

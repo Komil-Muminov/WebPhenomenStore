@@ -58,7 +58,7 @@ export const ContactCard: React.FC<IContactCardProps> = ({ className = "" }) => 
               </div>
               <div>
                 <div className="contact-card__item-label">Электронная почта</div>
-                <div className="contact-card__item-value">hello@freshify-smoothie.ru</div>
+                <div className="contact-card__item-value">hello@phenomen-store.ru</div>
               </div>
             </div>
           </div>

@@ -26,7 +26,7 @@ export const RenderHeader: React.FC<IRenderHeaderProps> = ({
 
   return (
     <header className="slider__nav">
-      <span className="slider__logo">Freshify</span>
+      <span className="slider__logo">PHENOMEN</span>
       <nav className="slider__nav-list">
         {NAV_ITEMS.map((item) => {
           const isActive = currentTab === item.label;
