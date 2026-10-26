@@ -35,7 +35,11 @@ export const DishPopup: React.FC<IDishPopupProps> = ({
         onClick={onClose}
       />
       <div className="dish-popup-layer">
-        <div className="dish-popup-anchor">
+        <motion.div
+          className="dish-popup-anchor"
+          animate={{ y: -75, scale: 0.88 }}
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        >
           <div className="dish-popup-slot">
             <motion.div
               className="dish-popup"
@@ -134,7 +138,7 @@ export const DishPopup: React.FC<IDishPopupProps> = ({
               </div>
             </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </>
   );

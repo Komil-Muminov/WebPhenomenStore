@@ -89,12 +89,20 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
           onPointerDown={handlePointerDown}
           onClick={handleBowlClick}
         >
-          <SmoothieBowl
-            smoothie={current}
-            onPointerDown={handlePointerDown}
-            onClick={handleBowlClick}
-            isActive={isDescriptionOpen}
-          />
+          <motion.div
+            animate={{
+              y: isDescriptionOpen ? -75 : 0,
+              scale: isDescriptionOpen ? 0.88 : 1,
+            }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <SmoothieBowl
+              smoothie={current}
+              onPointerDown={handlePointerDown}
+              onClick={handleBowlClick}
+              isActive={isDescriptionOpen}
+            />
+          </motion.div>
         </motion.div>
       </AnimatePresence>
 

@@ -14,7 +14,7 @@
   position: fixed;
   inset: 0;
   z-index: 22;
-  background: radial-gradient(circle at 50% 45%, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.82) 100%);
+  background: radial-gradient(circle at 50% 38%, rgba(0, 0, 0, 0.48) 0%, rgba(0, 0, 0, 0.88) 100%);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   pointer-events: auto;
@@ -34,7 +34,7 @@
 
 .dish-popup-slot {
   position: absolute;
-  top: calc(100% + 14px);
+  top: calc(100% + 12px);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -46,13 +46,13 @@
 .dish-popup {
   position: relative;
   z-index: 27;
-  width: clamp(300px, 92vw, 440px);
-  background: rgba(18, 15, 28, 0.88);
+  width: clamp(290px, 92vw, 420px);
+  background: rgba(18, 15, 28, 0.94);
   backdrop-filter: blur(32px);
   -webkit-backdrop-filter: blur(32px);
   border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 22px;
-  padding: 16px 20px;
+  border-radius: 20px;
+  padding: 14px 18px;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(168, 85, 247, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.25);
   color: #fff;
   box-sizing: border-box;
@@ -65,7 +65,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .dish-popup__badge {
@@ -104,7 +104,7 @@
 }
 
 .dish-popup__title {
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 800;
   margin: 0 0 4px;
   letter-spacing: -0.01em;
@@ -112,10 +112,10 @@
 }
 
 .dish-popup__desc {
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 12.5px;
+  line-height: 1.45;
   color: rgba(255, 255, 255, 0.78);
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 
 .dish-popup__macros {
@@ -124,9 +124,9 @@
   gap: 12px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 6px 12px;
-  margin-bottom: 12px;
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin-bottom: 8px;
 }
 
 .dish-popup__macro {
@@ -149,8 +149,8 @@
 .dish-popup__ingredients {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 12px;
+  gap: 5px;
+  margin-bottom: 10px;
 }
 
 .dish-popup__tag {
