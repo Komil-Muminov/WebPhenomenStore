@@ -15,6 +15,7 @@
 
 .contact-card__header {
   margin-bottom: 32px;
+  padding-right: clamp(20px, 15vw, 170px);
 }
 
 .contact-card__title {
