@@ -1,0 +1,33 @@
+import type { ISmoothie } from "@/entities";
+
+export interface IVerticalSmoothieSliderProps {
+  smoothies: ISmoothie[];
+  onScrollToTop?: () => void;
+}
+
+export interface IDecorCustom {
+  dir: number;
+  i: number;
+}
+
+export interface IVerticalHeaderProps {
+  onScrollToTop?: () => void;
+}
+
+export interface IVerticalStageProps {
+  current: ISmoothie;
+  dir: number;
+  onAnimationEnd: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+  onOpenNutrition: () => void;
+}
+
+export interface IVerticalFooterProps {
+  current: ISmoothie;
+  currentIndex: number;
+  totalCount: number;
+  onSelectIndex: (index: number) => void;
+  onOpenNutrition: () => void;
+  onAddToCart: () => void;
+}

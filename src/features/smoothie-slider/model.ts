@@ -2,6 +2,7 @@ import type { ISmoothie } from "@/entities";
 
 export interface ISmoothieSliderProps {
   smoothies: ISmoothie[];
+  onScrollToNext?: () => void;
 }
 
 export interface IDecorCustom {
@@ -30,6 +31,7 @@ export interface IRenderFooterProps {
   onSelectIndex: (index: number) => void;
   onOpenNutrition: () => void;
   onAddToCart: () => void;
+  onScrollToNext?: () => void;
 }
 
 export interface IRenderNutritionModalProps {

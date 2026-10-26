@@ -15,7 +15,10 @@ const SMOOTHIE_PRICES_MAP: Record<string, number> = {
   blackberry: 410,
 };
 
-export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({ smoothies }) => {
+export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
+  smoothies,
+  onScrollToNext,
+}) => {
   const [[index, dir], setState] = useState<[number, number]>([0, 1]);
   const [busy, setBusy] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<string>("Home");
@@ -98,8 +101,13 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({ smoothies }) =>
         }
       } else if (Math.abs(e.deltaY) > 30) {
         if (e.deltaY > 30) {
-          handleNext();
-          lastWheelTime = now;
+          if (onScrollToNext) {
+            onScrollToNext();
+            lastWheelTime = now;
+          } else {
+            handleNext();
+            lastWheelTime = now;
+          }
         } else if (e.deltaY < -30) {
           handlePrev();
           lastWheelTime = now;
@@ -109,7 +117,7 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({ smoothies }) =>
 
     window.addEventListener("wheel", handleWheel, { passive: true });
     return () => window.removeEventListener("wheel", handleWheel);
-  }, [handleNext, handlePrev]);
+  }, [handleNext, handlePrev, onScrollToNext]);
 
   const containerClass = `slider slider-bg-${current?.id ?? "blueberry"}`;
 
@@ -131,6 +139,7 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({ smoothies }) =>
         onSelectIndex={paginateToIndex}
         onOpenNutrition={() => setIsNutritionOpen(true)}
         onAddToCart={handleAddToCart}
+        onScrollToNext={onScrollToNext}
       />
       <RenderNutritionModal
         smoothie={current}
