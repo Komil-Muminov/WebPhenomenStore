@@ -60,10 +60,7 @@
   user-select: none;
 }
 
-.slider__stage:active {
-  cursor: grabbing;
-}
-
+.slider__stage:active { cursor: grabbing; }
 .slider__stage > * { grid-area: 1 / 1; }
 .slider__stage-bowl { user-select: none; }
 
@@ -100,9 +97,56 @@
   font-family: "Inter", sans-serif;
 }
 
-.slider__footer-title { margin: 0 0 6px; font-size: 22px; font-weight: 700; }
-.slider__footer-desc { margin: 0 0 12px; max-width: 340px; font-size: 14px; opacity: 0.75; }
-.slider__footer-actions { display: flex; align-items: center; gap: 10px; }
+.slider__footer-title { margin: 0 0 4px; font-size: 26px; font-weight: 800; letter-spacing: -0.01em; }
+.slider__footer-desc { margin: 0 0 16px; max-width: 360px; font-size: 14px; opacity: 0.75; line-height: 1.5; }
+.slider__footer-actions { display: flex; align-items: center; gap: 12px; }
+
+.slider__btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.slider__btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.slider__btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid #fff;
+  color: #111;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.slider__btn-primary:hover {
+  background: #f3f3f3;
+  box-shadow: 0 12px 28px rgba(255, 255, 255, 0.25);
+}
+
 .slider__pagination { display: flex; align-items: center; gap: 16px; }
 .slider__pagination-counter { font-size: 13px; letter-spacing: 0.05em; opacity: 0.8; font-weight: 600; }
 .slider__pagination-bars { display: flex; gap: 6px; }

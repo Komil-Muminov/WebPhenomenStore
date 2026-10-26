@@ -1,7 +1,6 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { LeftOutlined, RightOutlined, InfoCircleOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import { Button } from "antd";
 import { Tooltip } from "@/shared";
 import { textVariants } from "../lib";
 import type { IRenderFooterProps } from "../model";
@@ -37,23 +36,24 @@ export const RenderFooter: React.FC<IRenderFooterProps> = ({
 
         <div className="slider__footer-actions">
           <Tooltip title="Посмотреть состав и КБЖУ">
-            <Button
-              icon={<InfoCircleOutlined />}
+            <button
+              type="button"
+              className="slider__btn-secondary"
               onClick={onOpenNutrition}
-              className="rounded-full! border-white/30! text-white! hover:border-white!"
             >
-              Состав и польза
-            </Button>
+              <InfoCircleOutlined />
+              <span>Состав и польза</span>
+            </button>
           </Tooltip>
           <Tooltip title="Добавить в корзину">
-            <Button
-              type="primary"
-              icon={<ShoppingCartOutlined />}
+            <button
+              type="button"
+              className="slider__btn-primary"
               onClick={onAddToCart}
-              className="rounded-full!"
             >
-              Заказать
-            </Button>
+              <ShoppingCartOutlined />
+              <span>Заказать</span>
+            </button>
           </Tooltip>
         </div>
       </div>
