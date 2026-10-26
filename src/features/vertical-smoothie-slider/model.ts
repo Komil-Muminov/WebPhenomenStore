@@ -16,6 +16,7 @@ export interface IVerticalHeaderProps {
 
 export interface IVerticalStageProps {
   current: ISmoothie;
+  currentIndex: number;
   dir: number;
   onAnimationEnd: () => void;
   onPrev: () => void;

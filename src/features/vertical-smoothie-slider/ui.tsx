@@ -122,6 +122,7 @@ export const VerticalSmoothieSlider: React.FC<IVerticalSmoothieSliderProps> = ({
       <RenderVerticalHeader onScrollToTop={onScrollToTop} />
       <RenderVerticalStage
         current={current}
+        currentIndex={index}
         dir={dir}
         onAnimationEnd={handleAnimationEnd}
         onPrev={handlePrev}

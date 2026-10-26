@@ -3,15 +3,17 @@ import { AnimatePresence, motion, type PanInfo, type TapInfo } from "framer-moti
 import { SmoothieBowl } from "@/entities";
 import {
   checkVerticalSwipeDirection,
-  verticalBgLetterVariants,
   verticalBowlVariants,
   verticalDecorVariants,
   verticalWordVariants,
 } from "../lib";
 import type { IVerticalStageProps } from "../model";
 
+const PHENOMEN_LETTERS = ["Ф", "Е", "Н", "О", "М", "Е", "Н"];
+
 export const RenderVerticalStage: React.FC<IVerticalStageProps> = ({
   current,
+  currentIndex,
   dir,
   onAnimationEnd,
   onPrev,
@@ -64,20 +66,16 @@ export const RenderVerticalStage: React.FC<IVerticalStageProps> = ({
       onPanEnd={handlePanEnd}
       onTap={handleStageTap}
     >
-      <div className="vslider__bg-watermark">
-        <AnimatePresence initial={false} custom={dir} mode="popLayout">
-          <motion.span
-            key={`vbg-letter-${current.id}`}
-            className="vslider__bg-letter"
-            custom={dir}
-            variants={verticalBgLetterVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-          >
-            {current.bgLetter ?? "Ф"}
-          </motion.span>
-        </AnimatePresence>
+      <div className="vslider__horizon-wordmark">
+        {PHENOMEN_LETTERS.map((letter, i) => {
+          const isActive = i === (currentIndex % PHENOMEN_LETTERS.length);
+          const letterClass = `vslider__horizon-letter ${isActive ? "vslider__horizon-letter-active" : ""}`;
+          return (
+            <span key={`${letter}-${i}`} className={letterClass}>
+              {letter}
+            </span>
+          );
+        })}
       </div>
 
       <AnimatePresence initial={false} custom={dir} mode="popLayout">
