@@ -1,0 +1,75 @@
+.shop-list {
+  min-height: 100vh;
+  padding: 40px clamp(16px, 4vw, 56px);
+  background-color: #12161a;
+  color: #fff;
+}
+
+.shop-list__header {
+  margin-bottom: 32px;
+}
+
+.shop-list__title {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.shop-list__subtitle {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 16px;
+  margin: 0;
+}
+
+.shop-list__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.shop-list__item {
+  background-color: #1a2228;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: background-color 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+
+.shop-list__item:hover {
+  background-color: #212c34;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.shop-list__item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.shop-list__item-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.shop-list__item-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #52c41a;
+}
+
+.shop-list__item-desc {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 20px;
+}
+
+.shop-list__item-actions {
+  display: flex;
+  justify-content: flex-end;
+}
