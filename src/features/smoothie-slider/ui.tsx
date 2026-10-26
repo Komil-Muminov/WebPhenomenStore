@@ -128,8 +128,6 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({ smoothies }) =>
         current={current}
         currentIndex={index}
         totalCount={smoothies.length}
-        onPrev={handlePrev}
-        onNext={handleNext}
         onSelectIndex={paginateToIndex}
         onOpenNutrition={() => setIsNutritionOpen(true)}
         onAddToCart={handleAddToCart}

@@ -27,8 +27,6 @@ export interface IRenderFooterProps {
   current: ISmoothie;
   currentIndex: number;
   totalCount: number;
-  onPrev: () => void;
-  onNext: () => void;
   onSelectIndex: (index: number) => void;
   onOpenNutrition: () => void;
   onAddToCart: () => void;
