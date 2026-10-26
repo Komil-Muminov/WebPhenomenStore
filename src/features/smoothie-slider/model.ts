@@ -31,7 +31,6 @@ export interface IRenderFooterProps {
   onSelectIndex: (index: number) => void;
   onOpenNutrition: () => void;
   onAddToCart: () => void;
-  onScrollToNext?: () => void;
 }
 
 export interface IRenderNutritionModalProps {

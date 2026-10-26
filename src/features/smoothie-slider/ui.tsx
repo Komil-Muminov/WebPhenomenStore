@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { message } from "antd";
-import { useCart } from "@/shared";
+import { If, useCart } from "@/shared";
 import { RenderFooter } from "./ui/renderFooter";
 import { RenderHeader } from "./ui/renderHeader";
 import { RenderNutritionModal } from "./ui/renderNutritionModal";
@@ -139,8 +139,17 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
         onSelectIndex={paginateToIndex}
         onOpenNutrition={() => setIsNutritionOpen(true)}
         onAddToCart={handleAddToCart}
-        onScrollToNext={onScrollToNext}
       />
+      <If condition={Boolean(onScrollToNext)}>
+        <button
+          type="button"
+          className="slider__scroll-cue"
+          onClick={onScrollToNext}
+          aria-label="Листать вниз"
+        >
+          <span className="slider__scroll-cue-dot" />
+        </button>
+      </If>
       <RenderNutritionModal
         smoothie={current}
         open={isNutritionOpen}

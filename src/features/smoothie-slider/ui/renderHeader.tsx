@@ -24,7 +24,7 @@ export const RenderHeader: React.FC<IRenderHeaderProps> = ({
   };
 
   return (
-    <header className="slider__nav pr-40!">
+    <header className="slider__nav pr-14!">
       <span className="slider__logo">Freshify</span>
       <nav className="slider__nav-list">
         {NAV_ITEMS.map((item) => {

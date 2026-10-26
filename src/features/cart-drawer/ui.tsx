@@ -30,22 +30,26 @@ export const CartDrawer: React.FC<ICartDrawerProps> = () => {
 
   return (
     <>
-      <Tooltip title="Открыть корзину">
+      <Tooltip
+        title={
+          totalCount > 0
+            ? `Корзина: ${totalCount} шт. (${totalPrice} ₽)`
+            : "Корзина"
+        }
+      >
         <button
           type="button"
           className="cart-drawer__trigger"
           onClick={openDrawer}
           aria-label="Корзина"
         >
-          <div className="cart-drawer__trigger-icon">
-            <Badge count={totalCount} size="small" offset={[2, -2]}>
-              <ShoppingCartOutlined className="text-white! text-lg!" />
-            </Badge>
-          </div>
-          <span className="cart-drawer__trigger-text">Корзина</span>
-          <If condition={totalPrice > 0}>
-            <span className="cart-drawer__trigger-price">{totalPrice} ₽</span>
-          </If>
+          <Badge
+            count={totalCount}
+            size="small"
+            offset={[3, -3]}
+          >
+            <ShoppingCartOutlined className="text-white! text-base!" />
+          </Badge>
         </button>
       </Tooltip>
 

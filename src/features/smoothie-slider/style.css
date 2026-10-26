@@ -164,22 +164,40 @@
 
 .slider__pagination-bar-active { width: 44px; background-color: #fff; }
 
-.slider__scroll-down {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  padding: 6px 14px;
-  border-radius: 999px;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 600;
+.slider__scroll-cue {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  width: 20px;
+  height: 32px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
   cursor: pointer;
-  transition: background-color 0.2s, border-color 0.2s;
+  transition: border-color 0.25s, opacity 0.25s;
+  opacity: 0.5;
 }
 
-.slider__scroll-down:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.45);
+.slider__scroll-cue:hover {
+  opacity: 1;
+  border-color: #fff;
+}
+
+.slider__scroll-cue-dot {
+  width: 3px;
+  height: 6px;
+  border-radius: 2px;
+  background-color: #fff;
+  animation: scrollCueBounce 1.8s infinite ease-in-out;
+}
+
+@keyframes scrollCueBounce {
+  0% { transform: translateY(0); opacity: 0.9; }
+  50% { transform: translateY(7px); opacity: 0.25; }
+  100% { transform: translateY(0); opacity: 0.9; }
 }

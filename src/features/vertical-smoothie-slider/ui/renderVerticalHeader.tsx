@@ -9,7 +9,7 @@ export const RenderVerticalHeader: React.FC<IVerticalHeaderProps> = ({
   const hasScrollToTop = Boolean(onScrollToTop);
 
   return (
-    <header className="vslider__nav">
+    <header className="vslider__nav pr-14!">
       <If condition={hasScrollToTop}>
         <button
           type="button"

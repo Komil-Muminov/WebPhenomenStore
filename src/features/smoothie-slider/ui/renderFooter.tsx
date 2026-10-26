@@ -1,7 +1,7 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowDownOutlined, InfoCircleOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import { If, Tooltip } from "@/shared";
+import { InfoCircleOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { Tooltip } from "@/shared";
 import { textVariants } from "../lib";
 import type { IRenderFooterProps } from "../model";
 
@@ -12,7 +12,6 @@ export const RenderFooter: React.FC<IRenderFooterProps> = ({
   onSelectIndex,
   onOpenNutrition,
   onAddToCart,
-  onScrollToNext,
 }) => {
   const currentFormatted = String(currentIndex + 1).padStart(2, "0");
   const totalFormatted = String(totalCount).padStart(2, "0");
@@ -57,38 +56,26 @@ export const RenderFooter: React.FC<IRenderFooterProps> = ({
         </div>
       </div>
 
-      <div className="flex! flex-col! items-end! gap-3!">
-        <If condition={Boolean(onScrollToNext)}>
-          <button
-            type="button"
-            className="slider__scroll-down"
-            onClick={onScrollToNext}
-          >
-            <span>Superfood Bowls</span>
-            <ArrowDownOutlined />
-          </button>
-        </If>
-        <div className="slider__pagination">
-          <span className="slider__pagination-counter">
-            {currentFormatted} / {totalFormatted}
-          </span>
-          <div className="slider__pagination-bars">
-            {Array.from({ length: totalCount }).map((_, i) => {
-              const isActive = i === currentIndex;
-              const barClass = `slider__pagination-bar ${
-                isActive ? "slider__pagination-bar-active" : ""
-              }`;
-              return (
-                <button
-                  key={i}
-                  type="button"
-                  className={barClass}
-                  onClick={() => onSelectIndex(i)}
-                  aria-label={`Перейти к слайду ${i + 1}`}
-                />
-              );
-            })}
-          </div>
+      <div className="slider__pagination">
+        <span className="slider__pagination-counter">
+          {currentFormatted} / {totalFormatted}
+        </span>
+        <div className="slider__pagination-bars">
+          {Array.from({ length: totalCount }).map((_, i) => {
+            const isActive = i === currentIndex;
+            const barClass = `slider__pagination-bar ${
+              isActive ? "slider__pagination-bar-active" : ""
+            }`;
+            return (
+              <button
+                key={i}
+                type="button"
+                className={barClass}
+                onClick={() => onSelectIndex(i)}
+                aria-label={`Перейти к слайду ${i + 1}`}
+              />
+            );
+          })}
         </div>
       </div>
     </footer>
