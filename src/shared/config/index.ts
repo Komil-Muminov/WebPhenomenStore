@@ -21,3 +21,5 @@ export const QUERY_KEYS = {
 } as const;
 
 export type TQueryKeys = (typeof QUERY_KEYS)[keyof typeof QUERY_KEYS];
+
+export { antThemeConfig } from "./theme";
