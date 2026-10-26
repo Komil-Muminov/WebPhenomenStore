@@ -23,7 +23,7 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
   const [[index, dir], setState] = useState<[number, number]>([0, 1]);
   const lastPaginateTimeRef = useRef<number>(0);
   const activateTimeRef = useRef<number>(Date.now());
-  const [currentTab, setCurrentTab] = useState<string>("Home");
+  const [currentTab, setCurrentTab] = useState<string>("Смузи");
   const [isNutritionOpen, setIsNutritionOpen] = useState<boolean>(false);
 
   const { addItem } = useCart();

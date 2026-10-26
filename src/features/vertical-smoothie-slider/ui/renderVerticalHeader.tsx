@@ -5,9 +5,9 @@ import { AppRoutes, Logo } from "@/shared";
 import type { IVerticalHeaderProps } from "../model";
 
 const NAV_ITEMS = [
-  { label: "Menu", route: AppRoutes.MENU },
-  { label: "Shop", route: AppRoutes.SHOP },
-  { label: "Contact", route: AppRoutes.CONTACT },
+  { label: "Меню", route: AppRoutes.MENU },
+  { label: "Магазин", route: AppRoutes.SHOP },
+  { label: "Контакты", route: AppRoutes.CONTACT },
 ];
 
 export const RenderVerticalHeader: React.FC<IVerticalHeaderProps> = ({
@@ -28,13 +28,13 @@ export const RenderVerticalHeader: React.FC<IVerticalHeaderProps> = ({
           className="slider__nav-link"
           onClick={onScrollToTop}
         >
-          Smoothies
+          Смузи
         </button>
         <button
           type="button"
           className="slider__nav-link slider__nav-link-active"
         >
-          Superfood Bowls
+          Суперфуд боулы
         </button>
         {NAV_ITEMS.map((item) => (
           <button

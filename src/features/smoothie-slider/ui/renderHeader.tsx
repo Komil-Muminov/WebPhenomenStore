@@ -5,9 +5,9 @@ import { AppRoutes, Logo } from "@/shared";
 import type { IRenderHeaderProps } from "../model";
 
 const NAV_ITEMS = [
-  { label: "Menu", route: AppRoutes.MENU },
-  { label: "Shop", route: AppRoutes.SHOP },
-  { label: "Contact", route: AppRoutes.CONTACT },
+  { label: "Меню", route: AppRoutes.MENU },
+  { label: "Магазин", route: AppRoutes.SHOP },
+  { label: "Контакты", route: AppRoutes.CONTACT },
 ];
 
 export const RenderHeader: React.FC<IRenderHeaderProps> = ({
@@ -31,16 +31,16 @@ export const RenderHeader: React.FC<IRenderHeaderProps> = ({
         <button
           type="button"
           className="slider__nav-link slider__nav-link-active"
-          onClick={() => handleNavClick("Smoothies", AppRoutes.HOME)}
+          onClick={() => handleNavClick("Смузи", AppRoutes.HOME)}
         >
-          Smoothies
+          Смузи
         </button>
         <button
           type="button"
           className="slider__nav-link"
           onClick={onScrollToSuperfood}
         >
-          Superfood Bowls
+          Суперфуд боулы
         </button>
         {NAV_ITEMS.map((item) => {
           const isActive = currentTab === item.label;
