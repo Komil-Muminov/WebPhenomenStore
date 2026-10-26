@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeftOutlined, ShoppingCartOutlined, CheckOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
 import { SMOOTHIES_DATA, type ISmoothie } from "@/entities";
-import { CartDrawer } from "@/features";
+import { CartButton, CartDrawer } from "@/features";
 import { AppRoutes, ApiRoutes, ErrorBoundary, If, QUERY_KEYS, Spinner, Tooltip, useCart, useGetQuery } from "@/shared";
 import { SMOOTHIE_PRICES } from "./lib";
 import type { IShopListProps } from "./model";
@@ -34,15 +34,18 @@ export const ShopList: React.FC<IShopListProps> = ({ className = "" }) => {
     <ErrorBoundary>
       <div className={containerClass}>
         <div className="shop-list__header">
-          <Link to={AppRoutes.HOME}>
-            <Tooltip title="На главную">
-              <Button
-                type="text"
-                icon={<ArrowLeftOutlined />}
-                className="mb-4! text-white! hover:bg-white/10!"
-              />
-            </Tooltip>
-          </Link>
+          <div className="flex! items-center! justify-between! mb-4!">
+            <Link to={AppRoutes.HOME}>
+              <Tooltip title="На главную">
+                <Button
+                  type="text"
+                  icon={<ArrowLeftOutlined />}
+                  className="text-white! hover:bg-white/10!"
+                />
+              </Tooltip>
+            </Link>
+            <CartButton />
+          </div>
           <h1 className="shop-list__title">Магазин Смузи</h1>
           <p className="shop-list__subtitle">
             Закажите свежеприготовленный смузи с быстрой доставкой

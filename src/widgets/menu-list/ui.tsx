@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeftOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
 import { SMOOTHIES_DATA, type ISmoothie } from "@/entities";
-import { CartDrawer } from "@/features";
+import { CartButton, CartDrawer } from "@/features";
 import { AppRoutes, ApiRoutes, ErrorBoundary, If, QUERY_KEYS, Spinner, Tooltip, useCart, useGetQuery } from "@/shared";
 import { MENU_ITEMS_META } from "./lib";
 import type { IMenuListProps } from "./model";
@@ -42,15 +42,18 @@ export const MenuList: React.FC<IMenuListProps> = ({ className = "" }) => {
     <ErrorBoundary>
       <div className={containerClass}>
         <div className="menu-list__header">
-          <Link to={AppRoutes.HOME}>
-            <Tooltip title="На главную">
-              <Button
-                type="text"
-                icon={<ArrowLeftOutlined />}
-                className="mb-4! text-white! hover:bg-white/10!"
-              />
-            </Tooltip>
-          </Link>
+          <div className="flex! items-center! justify-between! mb-4!">
+            <Link to={AppRoutes.HOME}>
+              <Tooltip title="На главную">
+                <Button
+                  type="text"
+                  icon={<ArrowLeftOutlined />}
+                  className="text-white! hover:bg-white/10!"
+                />
+              </Tooltip>
+            </Link>
+            <CartButton />
+          </div>
           <h1 className="menu-list__title">Наше Меню</h1>
           <p className="menu-list__subtitle">
             Натуральные смузи из свежих ингредиентов без добавления сахара

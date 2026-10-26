@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { CartButton } from "@/features/cart-drawer";
 import { AppRoutes } from "@/shared";
 import type { IRenderHeaderProps } from "../model";
 
@@ -24,7 +25,7 @@ export const RenderHeader: React.FC<IRenderHeaderProps> = ({
   };
 
   return (
-    <header className="slider__nav pr-14!">
+    <header className="slider__nav">
       <span className="slider__logo">Freshify</span>
       <nav className="slider__nav-list">
         {NAV_ITEMS.map((item) => {
@@ -41,6 +42,7 @@ export const RenderHeader: React.FC<IRenderHeaderProps> = ({
             </button>
           );
         })}
+        <CartButton />
       </nav>
     </header>
   );

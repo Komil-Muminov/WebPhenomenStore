@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 import { ShoppingCartOutlined, PlusOutlined, MinusOutlined, DeleteOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import { Badge, Button, Drawer, message } from "antd";
 import { AppRoutes, If, Tooltip, useCart } from "@/shared";
+import { CartButton } from "./ui/cartButton";
 import type { ICartDrawerProps } from "./model";
 import "./style.css";
 
-export const CartDrawer: React.FC<ICartDrawerProps> = () => {
+export const CartDrawer: React.FC<ICartDrawerProps> = ({
+  showTrigger = false,
+}) => {
   const {
     items,
-    totalCount,
-    totalPrice,
     isOpen,
-    openDrawer,
     closeDrawer,
     addItem,
     decrementItem,
@@ -30,28 +30,9 @@ export const CartDrawer: React.FC<ICartDrawerProps> = () => {
 
   return (
     <>
-      <Tooltip
-        title={
-          totalCount > 0
-            ? `Корзина: ${totalCount} шт. (${totalPrice} ₽)`
-            : "Корзина"
-        }
-      >
-        <button
-          type="button"
-          className="cart-drawer__trigger"
-          onClick={openDrawer}
-          aria-label="Корзина"
-        >
-          <Badge
-            count={totalCount}
-            size="small"
-            offset={[3, -3]}
-          >
-            <ShoppingCartOutlined className="text-white! text-base!" />
-          </Badge>
-        </button>
-      </Tooltip>
+      <If condition={showTrigger}>
+        <CartButton className="cart-drawer__trigger" />
+      </If>
 
       <Drawer
         title="Ваш заказ"

@@ -1,5 +1,6 @@
 import React from "react";
 import { ArrowUpOutlined, ThunderboltOutlined } from "@ant-design/icons";
+import { CartButton } from "@/features/cart-drawer";
 import { If } from "@/shared";
 import type { IVerticalHeaderProps } from "../model";
 
@@ -9,7 +10,7 @@ export const RenderVerticalHeader: React.FC<IVerticalHeaderProps> = ({
   const hasScrollToTop = Boolean(onScrollToTop);
 
   return (
-    <header className="vslider__nav pr-14!">
+    <header className="vslider__nav">
       <If condition={hasScrollToTop}>
         <button
           type="button"
@@ -25,9 +26,12 @@ export const RenderVerticalHeader: React.FC<IVerticalHeaderProps> = ({
         <div className="slider__logo">PHENOMEN</div>
       </If>
 
-      <div className="vslider__badge">
-        <ThunderboltOutlined />
-        <span>Superfood Bowls</span>
+      <div className="flex! items-center! gap-3!">
+        <div className="vslider__badge">
+          <ThunderboltOutlined />
+          <span>Superfood Bowls</span>
+        </div>
+        <CartButton />
       </div>
     </header>
   );

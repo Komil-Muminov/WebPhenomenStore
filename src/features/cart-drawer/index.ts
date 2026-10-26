@@ -1,2 +1,3 @@
 export { CartDrawer } from "./ui";
-export type { ICartDrawerProps } from "./model";
+export { CartButton } from "./ui/cartButton";
+export type { ICartDrawerProps, ICartButtonProps } from "./model";
