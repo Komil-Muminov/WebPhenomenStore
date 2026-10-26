@@ -13,6 +13,7 @@ export interface IDecorCustom {
 export interface IRenderHeaderProps {
   currentTab: string;
   onSelectTab: (tab: string) => void;
+  onScrollToSuperfood?: () => void;
 }
 
 export interface IRenderStageProps {

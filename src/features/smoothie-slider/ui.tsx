@@ -123,7 +123,11 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
 
   return (
     <section className={containerClass}>
-      <RenderHeader currentTab={currentTab} onSelectTab={handleSelectTab} />
+      <RenderHeader
+        currentTab={currentTab}
+        onSelectTab={handleSelectTab}
+        onScrollToSuperfood={onScrollToNext}
+      />
       <RenderStage
         current={current}
         dir={dir}

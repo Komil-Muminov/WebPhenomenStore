@@ -33,7 +33,7 @@
   font: 600 14px "Inter", sans-serif;
 }
 
-.slider__nav-list { display: flex; gap: 8px; }
+.slider__nav-list { display: flex; align-items: center; gap: 8px; }
 
 .slider__nav-link {
   padding: 6px 16px;
