@@ -23,6 +23,8 @@ export interface IRenderStageProps {
   onPrev: () => void;
   onNext: () => void;
   onOpenNutrition: () => void;
+  onAddToCart?: () => void;
+  price?: number;
 }
 
 export interface IRenderFooterProps {

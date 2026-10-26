@@ -21,6 +21,9 @@ export interface IVerticalStageProps {
   onAnimationEnd: () => void;
   onPrev: () => void;
   onNext: () => void;
+  onOpenNutrition?: () => void;
+  onAddToCart?: () => void;
+  price?: number;
 }
 
 export interface IVerticalFooterProps {

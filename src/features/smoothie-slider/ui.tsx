@@ -128,6 +128,8 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
 
   const containerClass = `slider slider-bg-${current?.id ?? "blueberry"}`;
 
+  const currentPrice = SMOOTHIE_PRICES_MAP[current?.id] ?? 350;
+
   return (
     <section className={containerClass}>
       <RenderHeader
@@ -142,6 +144,8 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
         onPrev={handlePrev}
         onNext={handleNext}
         onOpenNutrition={() => setIsNutritionOpen(true)}
+        onAddToCart={handleAddToCart}
+        price={currentPrice}
       />
       <RenderFooter
         current={current}

@@ -24,3 +24,12 @@ export interface ISmoothie {
 export interface ISmoothieBowlProps {
   smoothie: ISmoothie;
 }
+
+export interface IDishPopupProps {
+  smoothie: ISmoothie;
+  open: boolean;
+  onClose: () => void;
+  onOpenDetails?: () => void;
+  onAddToCart?: () => void;
+  price?: number;
+}

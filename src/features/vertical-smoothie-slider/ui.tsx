@@ -117,6 +117,8 @@ export const VerticalSmoothieSlider: React.FC<IVerticalSmoothieSliderProps> = ({
 
   const containerClass = `vslider vslider-bg-${current?.id ?? "matcha"}`;
 
+  const currentPrice = SUPERFOOD_PRICES[current?.id] ?? 450;
+
   return (
     <section className={containerClass}>
       <RenderVerticalHeader onScrollToTop={onScrollToTop} />
@@ -127,6 +129,9 @@ export const VerticalSmoothieSlider: React.FC<IVerticalSmoothieSliderProps> = ({
         onAnimationEnd={handleAnimationEnd}
         onPrev={handlePrev}
         onNext={handleNext}
+        onOpenNutrition={() => setIsNutritionOpen(true)}
+        onAddToCart={handleAddToCart}
+        price={currentPrice}
       />
       <RenderVerticalFooter
         current={current}

@@ -69,7 +69,7 @@
 
 .slider__stage:active { cursor: grabbing; }
 .slider__stage > * { grid-area: 1 / 1; }
-.slider__stage-bowl { user-select: none; -webkit-user-select: none; pointer-events: none; }
+.slider__stage-bowl { user-select: none; -webkit-user-select: none; cursor: pointer; }
 
 .slider__word {
   margin: 0;
