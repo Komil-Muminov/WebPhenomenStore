@@ -6,3 +6,5 @@ export { Spinner } from "./Spinner";
 export type { ISpinnerProps } from "./Spinner";
 export { ErrorBoundary } from "./ErrorBoundary";
 export type { IErrorBoundaryProps, IErrorBoundaryState } from "./ErrorBoundary";
+export { Logo } from "./Logo";
+export type { ILogoProps } from "./Logo";

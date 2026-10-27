@@ -1,5 +1,6 @@
 export { useGetQuery } from "./useGetQuery";
 export { useMutationQuery } from "./useMutationQuery";
+export { useCart, cartStore } from "./useCart";
 export { queryCache } from "./cache";
 export type {
   IGetQueryOptions,
@@ -7,3 +8,4 @@ export type {
   IMutationOptions,
   IMutationResult,
 } from "./model";
+export type { ICartItem } from "./useCart";

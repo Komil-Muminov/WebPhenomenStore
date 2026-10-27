@@ -1,0 +1,183 @@
+.vslider {
+  position: relative;
+  height: 100vh;
+  min-height: 560px;
+  overflow: hidden;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 24px clamp(16px, 4vw, 56px);
+  box-sizing: border-box;
+  transition: background-color 1s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.vslider-bg-matcha { background-color: #133829; }
+.vslider-bg-blackberry_bowl { background-color: #42163b; }
+.vslider-bg-mango { background-color: #5c3308; }
+.vslider-bg-pitaya { background-color: #520c30; }
+.vslider-bg-chocolate_bowl { background-color: #3d1e16; }
+.vslider-bg-acai { background-color: #231138; }
+.vslider-bg-blueberry_bowl { background-color: #1a1f42; }
+
+.vslider::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.1), transparent 70%);
+  pointer-events: none;
+}
+
+.vslider__nav {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font: 600 14px "Inter", sans-serif;
+}
+
+.vslider__stage {
+  position: relative;
+  flex: 1;
+  display: grid;
+  place-items: center;
+  touch-action: pan-x;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.vslider__stage:active { cursor: grabbing; }
+.vslider__stage > * { grid-area: 1 / 1; }
+.vslider__stage-bowl {
+  z-index: 25;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.vslider__horizon-wordmark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 4vw, 72px);
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow: hidden;
+}
+
+.vslider__horizon-letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: 400 clamp(64px, 11vw, 210px) / 1 "Anton", sans-serif;
+  color: rgba(255, 255, 255, 0.1);
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.28);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  transform: translateY(0) scale(0.95);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.vslider__horizon-letter-active {
+  color: #ffffff;
+  -webkit-text-stroke: 0px transparent;
+  transform: translateY(-8px) scale(1.15);
+  opacity: 1;
+  text-shadow: 0 0 35px rgba(255, 255, 255, 0.9), 0 0 70px rgba(255, 255, 255, 0.5), 0 10px 35px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.vslider__decor {
+  position: absolute;
+  z-index: 4;
+  font-size: clamp(32px, 5vw, 72px);
+  filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.4));
+  pointer-events: none;
+}
+
+.vslider__decor-pos-0 { top: 12%; right: 18%; }
+.vslider__decor-pos-1 { bottom: 18%; left: 16%; }
+.vslider__decor-pos-2 { top: 22%; left: 14%; }
+
+.vslider__side-pagination {
+  position: absolute;
+  right: clamp(16px, 3vw, 44px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.vslider__side-counter {
+  font: 700 12px "Inter", sans-serif;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  margin-bottom: 4px;
+}
+
+.vslider__side-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vslider__side-bar {
+  width: 4px;
+  height: 24px;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: height 0.3s, background-color 0.3s;
+}
+
+.vslider__side-bar-active {
+  height: 44px;
+  background-color: #fff;
+}
+
+.vslider__footer {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  font-family: "Inter", sans-serif;
+}
+
+.vslider__footer-title {
+  margin: 0 0 4px;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.vslider__footer-desc {
+  margin: 0 0 16px;
+  max-width: 380px;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 1.5;
+}
+
+.vslider__footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

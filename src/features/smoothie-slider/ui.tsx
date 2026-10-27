@@ -1,27 +1,68 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { message } from "antd";
+import { If, useCart } from "@/shared";
 import { RenderFooter } from "./ui/renderFooter";
 import { RenderHeader } from "./ui/renderHeader";
+import { RenderNutritionModal } from "./ui/renderNutritionModal";
 import { RenderStage } from "./ui/renderStage";
 import type { ISmoothieSliderProps } from "./model";
 import "./style.css";
 
-export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({ smoothies }) => {
-  const [[index, dir], setState] = useState<[number, number]>([0, 1]);
-  const [busy, setBusy] = useState<boolean>(false);
-  const [currentTab, setCurrentTab] = useState<string>("Home");
+const SMOOTHIE_PRICES_MAP: Record<string, number> = {
+  blueberry: 390,
+  strawberry: 350,
+  chocolate: 420,
+  blackberry: 410,
+};
 
+export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({
+  smoothies,
+  onScrollToNext,
+  isActive = true,
+}) => {
+  const [[index, dir], setState] = useState<[number, number]>([0, 1]);
+  const lastPaginateTimeRef = useRef<number>(0);
+  const activateTimeRef = useRef<number>(Date.now());
+  const [currentTab, setCurrentTab] = useState<string>("Смузи");
+  const [isNutritionOpen, setIsNutritionOpen] = useState<boolean>(false);
+
+  const { addItem } = useCart();
   const current = smoothies[index] ?? smoothies[0];
+
+  useEffect(() => {
+    if (isActive) {
+      activateTimeRef.current = Date.now();
+    }
+  }, [isActive]);
 
   const paginate = useCallback(
     (nextDir: number) => {
-      if (busy || smoothies.length === 0) return;
-      setBusy(true);
+      const now = Date.now();
+      if (now - lastPaginateTimeRef.current < 550 || smoothies.length === 0) return;
+      lastPaginateTimeRef.current = now;
       setState(([prevIndex]) => [
         (prevIndex + nextDir + smoothies.length) % smoothies.length,
         nextDir,
       ]);
     },
-    [busy, smoothies.length],
+    [smoothies.length],
+  );
+
+  const paginateToIndex = useCallback(
+    (targetIndex: number) => {
+      const now = Date.now();
+      if (
+        now - lastPaginateTimeRef.current < 550 ||
+        targetIndex === index ||
+        smoothies.length === 0
+      ) {
+        return;
+      }
+      lastPaginateTimeRef.current = now;
+      const nextDir = targetIndex > index ? 1 : -1;
+      setState([targetIndex, nextDir]);
+    },
+    [index, smoothies.length],
   );
 
   const handlePrev = useCallback(() => {
@@ -32,37 +73,114 @@ export const SmoothieSlider: React.FC<ISmoothieSliderProps> = ({ smoothies }) =>
     paginate(1);
   }, [paginate]);
 
-  const handleAnimationEnd = useCallback(() => {
-    setBusy(false);
-  }, []);
+  const handleAnimationEnd = useCallback(() => {}, []);
 
   const handleSelectTab = useCallback((tab: string) => {
     setCurrentTab(tab);
   }, []);
 
+  const handleAddToCart = useCallback(() => {
+    const price = SMOOTHIE_PRICES_MAP[current.id] ?? 350;
+    addItem({
+      id: current.id,
+      title: current.title,
+      price,
+      image: current.image,
+    });
+    message.success(`${current.title} добавлен в корзину`);
+  }, [addItem, current]);
+
   useEffect(() => {
+    if (!isActive) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") handleNext();
       if (e.key === "ArrowLeft") handlePrev();
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleNext, handlePrev]);
+  }, [handleNext, handlePrev, isActive]);
+
+  useEffect(() => {
+    if (!isActive) return;
+    let lastWheelTime = 0;
+    const handleWheel = (e: WheelEvent) => {
+      const now = Date.now();
+      if (now - activateTimeRef.current < 900) return;
+
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 20) {
+        if (now - lastWheelTime < 600) return;
+        if (e.deltaX > 20) {
+          handleNext();
+          lastWheelTime = now;
+        } else if (e.deltaX < -20) {
+          handlePrev();
+          lastWheelTime = now;
+        }
+      } else if (Math.abs(e.deltaY) > 25) {
+        if (now - lastWheelTime < 600) return;
+        if (e.deltaY > 25) {
+          if (onScrollToNext) {
+            onScrollToNext();
+            lastWheelTime = now;
+          } else {
+            handleNext();
+            lastWheelTime = now;
+          }
+        } else if (e.deltaY < -25) {
+          handlePrev();
+          lastWheelTime = now;
+        }
+      }
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [handleNext, handlePrev, onScrollToNext, isActive]);
 
   const containerClass = `slider slider-bg-${current?.id ?? "blueberry"}`;
 
+  const currentPrice = SMOOTHIE_PRICES_MAP[current?.id] ?? 350;
+
   return (
     <section className={containerClass}>
-      <RenderHeader currentTab={currentTab} onSelectTab={handleSelectTab} />
+      <RenderHeader
+        currentTab={currentTab}
+        onSelectTab={handleSelectTab}
+        onScrollToSuperfood={onScrollToNext}
+      />
       <RenderStage
         current={current}
         dir={dir}
         onAnimationEnd={handleAnimationEnd}
+        onPrev={handlePrev}
+        onNext={handleNext}
+        onOpenNutrition={() => setIsNutritionOpen(true)}
+        onAddToCart={handleAddToCart}
+        price={currentPrice}
       />
       <RenderFooter
         current={current}
-        onPrev={handlePrev}
-        onNext={handleNext}
+        currentIndex={index}
+        totalCount={smoothies.length}
+        onSelectIndex={paginateToIndex}
+        onOpenNutrition={() => setIsNutritionOpen(true)}
+        onAddToCart={handleAddToCart}
+      />
+      <If condition={Boolean(onScrollToNext)}>
+        <button
+          type="button"
+          className="slider__scroll-cue"
+          onClick={onScrollToNext}
+          aria-label="Листать вниз"
+        >
+          <span className="slider__scroll-cue-dot" />
+        </button>
+      </If>
+      <RenderNutritionModal
+        smoothie={current}
+        open={isNutritionOpen}
+        onClose={() => setIsNutritionOpen(false)}
+        onAddToCart={handleAddToCart}
       />
     </section>
   );

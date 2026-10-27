@@ -1,0 +1,189 @@
+.cart-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+
+.cart-button:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: scale(1.05);
+}
+
+.cart-drawer__trigger {
+  position: fixed;
+  top: 24px;
+  right: clamp(16px, 4vw, 48px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.cart-drawer__trigger:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: scale(1.04);
+}
+
+.cart-drawer__panel .ant-drawer-content {
+  background: rgba(18, 16, 26, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.cart-drawer__panel .ant-drawer-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 20px 24px;
+}
+
+.cart-drawer__panel .ant-drawer-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.cart-drawer__panel .ant-drawer-close {
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.2s;
+}
+
+.cart-drawer__panel .ant-drawer-close:hover {
+  color: #fff;
+}
+
+.cart-drawer__panel .ant-drawer-body {
+  padding: 24px;
+}
+
+.cart-drawer__card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  margin-bottom: 12px;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.cart-drawer__card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.cart-drawer__card-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cart-drawer__card-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.cart-drawer__card-name {
+  font-weight: 700;
+  font-size: 15px;
+  margin: 0 0 4px;
+  color: #fff;
+}
+
+.cart-drawer__card-price {
+  font-size: 13px;
+  font-weight: 600;
+  color: #a7f3d0;
+}
+
+.cart-drawer__stepper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 6px;
+  border-radius: 999px;
+}
+
+.cart-drawer__stepper-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+  font-size: 11px;
+  transition: background-color 0.2s;
+}
+
+.cart-drawer__stepper-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.cart-drawer__stepper-count {
+  font-size: 13px;
+  font-weight: 700;
+  min-width: 18px;
+  text-align: center;
+  color: #fff;
+}
+
+.cart-drawer__summary {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.cart-drawer__summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 8px;
+}
+
+.cart-drawer__summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}

@@ -1,16 +1,67 @@
-import React from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { SmoothieBowl } from "@/entities";
-import { bowlVariants, decorVariants, wordVariants } from "../lib";
+import React, { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, type PanInfo } from "framer-motion";
+import { DishPopup, SmoothieBowl } from "@/entities";
+import { If } from "@/shared";
+import { bowlVariants, checkSwipeDirection, decorVariants, wordVariants } from "../lib";
 import type { IRenderStageProps } from "../model";
 
 export const RenderStage: React.FC<IRenderStageProps> = ({
   current,
   dir,
   onAnimationEnd,
+  onPrev,
+  onNext,
+  onOpenNutrition,
+  onAddToCart,
+  price,
 }) => {
+  const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
+  const [isDescriptionOpen, setIsDescriptionOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsDescriptionOpen(false);
+  }, [current.id]);
+
+  const handlePanEnd = (
+    _: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo,
+  ) => {
+    const swipeDir = checkSwipeDirection(info.offset.x, info.velocity.x);
+    if (swipeDir === 1) {
+      onNext();
+    } else if (swipeDir === -1) {
+      onPrev();
+    }
+  };
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    pointerStartRef.current = { x: e.clientX, y: e.clientY };
+  };
+
+  const handleBowlClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (pointerStartRef.current) {
+      const moved = Math.hypot(
+        e.clientX - pointerStartRef.current.x,
+        e.clientY - pointerStartRef.current.y,
+      );
+      if (moved > 12) return;
+    }
+    setIsDescriptionOpen((prev) => !prev);
+  };
+
+  const handleStageClick = () => {
+    if (isDescriptionOpen) {
+      setIsDescriptionOpen(false);
+    }
+  };
+
   return (
-    <div className="slider__stage">
+    <motion.div
+      className="slider__stage"
+      onPanEnd={handlePanEnd}
+      onClick={handleStageClick}
+    >
       <AnimatePresence initial={false} custom={dir} mode="popLayout">
         <motion.h1
           key={`word-${current.id}`}
@@ -28,17 +79,41 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
       <AnimatePresence initial={false} custom={dir} mode="popLayout">
         <motion.div
           key={`bowl-${current.id}`}
-          className="slider__stage-bowl"
+          className={`slider__stage-bowl ${isDescriptionOpen ? "z-35!" : ""}`}
           custom={dir}
           variants={bowlVariants}
           initial="enter"
           animate="center"
           exit="exit"
           onAnimationComplete={onAnimationEnd}
+          onPointerDown={handlePointerDown}
+          onClick={handleBowlClick}
         >
-          <SmoothieBowl smoothie={current} />
+          <motion.div
+            animate={{
+              scale: isDescriptionOpen ? 1.04 : 1,
+            }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <SmoothieBowl
+              smoothie={current}
+              onPointerDown={handlePointerDown}
+              onClick={handleBowlClick}
+              isActive={isDescriptionOpen}
+            />
+          </motion.div>
         </motion.div>
       </AnimatePresence>
+
+      <If condition={isDescriptionOpen}>
+        <DishPopup
+          smoothie={current}
+          onClose={() => setIsDescriptionOpen(false)}
+          onOpenDetails={onOpenNutrition}
+          onAddToCart={onAddToCart}
+          price={price}
+        />
+      </If>
 
       <AnimatePresence initial={false} custom={{ dir, i: 0 }}>
         {current.decor.map((decorItem, index) => (
@@ -55,6 +130,6 @@ export const RenderStage: React.FC<IRenderStageProps> = ({
           </motion.span>
         ))}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 };

@@ -1,18 +1,19 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { AppRoutes } from "@/shared";
+import { CartButton } from "@/features/cart-drawer";
+import { AppRoutes, Logo } from "@/shared";
 import type { IRenderHeaderProps } from "../model";
 
 const NAV_ITEMS = [
-  { label: "Home", route: AppRoutes.HOME },
-  { label: "Menu", route: AppRoutes.MENU },
-  { label: "Shop", route: AppRoutes.SHOP },
-  { label: "Contact", route: AppRoutes.CONTACT },
+  { label: "Меню", route: AppRoutes.MENU },
+  { label: "Магазин", route: AppRoutes.SHOP },
+  { label: "Контакты", route: AppRoutes.CONTACT },
 ];
 
 export const RenderHeader: React.FC<IRenderHeaderProps> = ({
   currentTab,
   onSelectTab,
+  onScrollToSuperfood,
 }) => {
   const navigate = useNavigate();
 
@@ -25,8 +26,22 @@ export const RenderHeader: React.FC<IRenderHeaderProps> = ({
 
   return (
     <header className="slider__nav">
-      <span className="slider__logo">Freshify</span>
+      <Logo />
       <nav className="slider__nav-list">
+        <button
+          type="button"
+          className="slider__nav-link slider__nav-link-active"
+          onClick={() => handleNavClick("Смузи", AppRoutes.HOME)}
+        >
+          Смузи
+        </button>
+        <button
+          type="button"
+          className="slider__nav-link"
+          onClick={onScrollToSuperfood}
+        >
+          Суперфуд боулы
+        </button>
         {NAV_ITEMS.map((item) => {
           const isActive = currentTab === item.label;
           const linkClass = `slider__nav-link ${isActive ? "slider__nav-link-active" : ""}`;
@@ -41,7 +56,9 @@ export const RenderHeader: React.FC<IRenderHeaderProps> = ({
             </button>
           );
         })}
+        <CartButton />
       </nav>
     </header>
   );
 };
+
