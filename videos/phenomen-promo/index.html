@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --ground: #111111;
+        --ink: #ffffff;
+        --muted: rgba(255, 255, 255, 0.72);
+        --font-display: "Anton", "Inter", sans-serif;
+        --font-body: "Inter", sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--ground);
+        color: var(--ink);
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--ground);
+        font-family: var(--font-body);
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .scene-bg {
+        position: absolute;
+        inset: 0;
+        background: #111111;
+      }
+      .logo {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 390px;
+        text-align: center;
+        font-family: var(--font-display);
+        font-size: 270px;
+        line-height: 1;
+        letter-spacing: 0.04em;
+      }
+      .eyebrow {
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 30px;
+        font-weight: 600;
+        letter-spacing: 0.42em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .headline {
+        position: absolute;
+        left: 150px;
+        top: 200px;
+        font-family: var(--font-display);
+        font-size: 170px;
+        line-height: 0.95;
+        text-transform: uppercase;
+      }
+      .sub {
+        position: absolute;
+        left: 150px;
+        top: 780px;
+        font-size: 48px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+      .photo {
+        position: absolute;
+        right: 120px;
+        top: 160px;
+        width: 720px;
+        height: 720px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .bowl-word {
+        position: absolute;
+        left: 150px;
+        top: 260px;
+        font-family: var(--font-display);
+        font-size: 200px;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+      .bowl-title {
+        position: absolute;
+        left: 150px;
+        top: 520px;
+        font-size: 72px;
+        font-weight: 700;
+      }
+      .bowl-desc {
+        position: absolute;
+        left: 150px;
+        top: 620px;
+        width: 780px;
+        font-size: 40px;
+        line-height: 1.4;
+        color: var(--muted);
+      }
+      .bowl-photo {
+        position: absolute;
+        right: 120px;
+        top: 150px;
+        width: 760px;
+        height: 760px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .stat-row {
+        position: absolute;
+        left: 150px;
+        right: 150px;
+        top: 380px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .stat {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .stat__value {
+        font-family: var(--font-display);
+        font-size: 220px;
+        line-height: 1;
+      }
+      .stat__label {
+        font-size: 34px;
+        font-weight: 600;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+      }
+      .claim {
+        position: absolute;
+        left: 150px;
+        font-family: var(--font-display);
+        font-size: 150px;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+      .contact {
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 44px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="35"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div id="bg" class="scene-bg clip" data-start="0" data-duration="35" data-track-index="0"></div>
+
+      <!-- Scene 1: brand intro, 0–4s -->
+      <div id="s1" class="clip" data-start="0" data-duration="4" data-track-index="1">
+        <div id="s1-logo" class="logo">PHENOMEN</div>
+        <div id="s1-eyebrow" class="eyebrow" style="top: 720px">Natural Superfood &amp; Smoothie Bar</div>
+      </div>
+
+      <!-- Scene 2: hook, 4–10s -->
+      <div id="s2" class="clip" data-start="4" data-duration="6" data-track-index="1">
+        <div id="s2-head" class="headline">Суперфуды<br />в каждой<br />чашке</div>
+        <div id="s2-sub" class="sub">Холодного отжима. Без компромиссов.</div>
+        <img id="s2-photo" class="photo" style="right: 60px; top: 220px; width: 620px; height: 620px" src="assets/acai.jpg" alt="" />
+      </div>
+
+      <!-- Scene 3: bowl carousel, 10–22s, 3s per bowl -->
+      <div id="s3-0" class="clip" data-start="10" data-duration="3" data-track-index="1">
+        <div class="bowl-word" style="color: #3fbf8a">MATCHA</div>
+        <div class="bowl-title">Фейхоа &amp; Матча</div>
+        <div class="bowl-desc">Церемониальный матча, фейхоа, киви, семена конопли и мята.</div>
+        <img class="bowl-photo" src="assets/matcha.jpg" alt="" />
+      </div>
+      <div id="s3-1" class="clip" data-start="13" data-duration="3" data-track-index="1">
+        <div class="bowl-word" style="color: #c25ea0">BLACKBERRY</div>
+        <div class="bowl-title">Ежевичный Буст</div>
+        <div class="bowl-desc">Дикая лесная ежевика, черничный мусс, кокосовые хлопья и чиа.</div>
+        <img class="bowl-photo" src="assets/blackberry.jpg" alt="" />
+      </div>
+      <div id="s3-2" class="clip" data-start="16" data-duration="3" data-track-index="1">
+        <div class="bowl-word" style="color: #f2a33a">MANGO</div>
+        <div class="bowl-title">Натуральный Манго</div>
+        <div class="bowl-desc">Манго Альфонсо, сок маракуйи, кокосовые лепестки и чиа.</div>
+        <img class="bowl-photo" src="assets/mango.jpg" alt="" />
+      </div>
+      <div id="s3-3" class="clip" data-start="19" data-duration="3" data-track-index="1">
+        <div class="bowl-word" style="color: #e8457f">PITAYA</div>
+        <div class="bowl-title">Облепиха &amp; Питахайя</div>
+        <div class="bowl-desc">Розовая питахайя, сибирская облепиха, карамбола и зерна граната.</div>
+        <img class="bowl-photo" src="assets/pitaya.jpg" alt="" />
+      </div>
+
+      <!-- Scene 4: per-serving stats, 22–27s -->
+      <div id="s4" class="clip" data-start="22" data-duration="5" data-track-index="1">
+        <div class="eyebrow" style="top: 230px">Фейхоа &amp; Матча · на порцию</div>
+        <div class="stat-row">
+          <div class="stat"><div class="stat__value">195</div><div class="stat__label">ккал</div></div>
+          <div class="stat"><div class="stat__value">7.1</div><div class="stat__label">г белка</div></div>
+          <div class="stat"><div class="stat__value">36.4</div><div class="stat__label">г углеводов</div></div>
+        </div>
+      </div>
+
+      <!-- Scene 5: claims, 27–31s -->
+      <div id="s5" class="clip" data-start="27" data-duration="4" data-track-index="1">
+        <div class="claim" style="top: 330px">Органическое</div>
+        <div class="claim" style="top: 500px; color: var(--muted)">какао · асаи · черника</div>
+      </div>
+
+      <!-- Scene 6: close, 31–35s -->
+      <div id="s6" class="clip" data-start="31" data-duration="4" data-track-index="1">
+        <div id="s6-logo" class="logo" style="top: 300px">PHENOMEN</div>
+        <div class="contact" style="top: 640px">г. Москва, ул. Арбат, 15</div>
+        <div class="contact" style="top: 710px">+7 (800) 555-35-35</div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const bg = document.querySelector("#bg");
+
+      tl.fromTo("#s1-logo", { opacity: 0.4, y: 40 }, { opacity: 1, y: 0, duration: 0.9, ease: "power4.out" }, 0);
+      tl.fromTo("#s1-eyebrow", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power2.out" }, 0.9);
+      tl.to("#s1", { opacity: 0, duration: 0.4, ease: "power2.in" }, 3.6);
+
+      tl.fromTo("#s2-head", { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: 0.8, ease: "power4.out" }, 4.2);
+      tl.fromTo("#s2-sub", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 5.0);
+      tl.fromTo("#s2-photo", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 1.0, ease: "power3.out" }, 4.4);
+      tl.to("#s2", { opacity: 0, duration: 0.4, ease: "power2.in" }, 9.6);
+
+      const bowls = [
+        { id: "#s3-0", color: "#133829", start: 10 },
+        { id: "#s3-1", color: "#42163b", start: 13 },
+        { id: "#s3-2", color: "#5c3308", start: 16 },
+        { id: "#s3-3", color: "#520c30", start: 19 },
+      ];
+      bowls.forEach((bowl, i) => {
+        const { id, start } = bowl;
+        tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, start);
+        tl.fromTo(`${id} .bowl-word`, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, start + 0.1);
+        tl.fromTo(`${id} .bowl-photo`, { opacity: 0, scale: 0.8, rotate: -12 }, { opacity: 1, scale: 1, rotate: 0, duration: 0.9, ease: "power3.out" }, start + 0.05);
+        tl.fromTo(`${id} .bowl-title`, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, start + 0.3);
+        tl.fromTo(`${id} .bowl-desc`, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, start + 0.6);
+        tl.to(id, { opacity: 0, duration: 0.3, ease: "power2.in" }, start + 2.7);
+        tl.to(bg, { backgroundColor: bowl.color, duration: 0.6, ease: "power1.inOut" }, start);
+      });
+      tl.to(bg, { backgroundColor: "#133829", duration: 0.6, ease: "power1.inOut" }, 22);
+      tl.to(bg, { backgroundColor: "#111111", duration: 0.6, ease: "power1.inOut" }, 30.4);
+
+      tl.fromTo("#s4 .eyebrow", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 22.2);
+      tl.fromTo("#s4 .stat", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", stagger: 0.25 }, 22.4);
+      tl.to("#s4", { opacity: 0, duration: 0.4, ease: "power2.in" }, 26.6);
+
+      tl.fromTo("#s5 .claim", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.3 }, 27.2);
+      tl.to("#s5", { opacity: 0, duration: 0.4, ease: "power2.in" }, 30.6);
+
+      tl.fromTo("#s6-logo", { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.9, ease: "power3.out" }, 31.2);
+      tl.fromTo("#s6 .contact", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out", stagger: 0.2 }, 31.9);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
